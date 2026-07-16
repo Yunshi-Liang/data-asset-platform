@@ -38,6 +38,23 @@ export const recentAccessTasks = [
   { id: 'TASK-20260714-014', name: '珠三角 DOM 成果接入', source: '珠三角无人机测绘成果', mode: '人工全量', startTime: '2026-07-14 16:20', duration: '38分42秒', volume: '86.4 GB', status: 'success', operator: '邓航' },
 ]
 
+const completedSteps = [
+  ['建立连接', '09:30:02', '数据源连接建立成功'],
+  ['读取数据', '09:30:08', '完成增量数据读取'],
+  ['校验数据结构', '09:30:19', '字段结构与上次版本一致'],
+  ['采集元数据', '09:31:02', '已采集技术元数据'],
+  ['写入原始数据区', '09:32:04', '数据写入完成'],
+  ['完成任务', '09:32:08', '任务执行成功'],
+].map(([name, time, detail]) => ({ name, time, detail, status: 'finish' }))
+
+export const accessTaskRecords = [
+  { id: 'TASK-20260715-018', name: '广东输电线路 GIS 增量同步', source: '广东输电线路 GIS 数据库', triggerMode: '定时调度', startTime: '2026-07-15 09:30:00', endTime: '2026-07-15 09:32:08', duration: '2分8秒', processedVolume: '2.6 GB', added: '18,620', updated: '3,486', skipped: '126', failedCount: 0, status: 'success', operator: '系统调度', steps: completedSteps, logs: ['09:30:02 [INFO] PostgreSQL 连接成功', '09:30:19 [INFO] 检测到 3 个增量分区', '09:32:08 [INFO] 本次同步提交完成'], failureReason: '' },
+  { id: 'TASK-20260715-017', name: '海南水文气象小时数据接入', source: '海南水文气象 API', triggerMode: '定时调度', startTime: '2026-07-15 10:00:00', endTime: '', duration: '执行中', processedVolume: '486 MB', added: '5,286', updated: '860', skipped: '12', failedCount: 0, status: 'running', operator: '系统调度', steps: completedSteps.map((step, index) => ({ ...step, status: index < 3 ? 'finish' : index === 3 ? 'process' : 'wait', time: index <= 3 ? step.time : '' })), logs: ['10:00:01 [INFO] API 认证成功', '10:00:18 [INFO] 已读取 128 个气象站点', '10:01:06 [INFO] 正在采集字段元数据'], failureReason: '' },
+  { id: 'TASK-20260715-016', name: '湛江测风实时数据消费', source: '湛江沿海风速监测数据', triggerMode: '实时消费', startTime: '2026-07-15 09:58:00', endTime: '2026-07-15 10:16:42', duration: '18分42秒', processedVolume: '236 MB', added: '86,420', updated: '0', skipped: '360', failedCount: 186, status: 'failed', operator: '系统调度', steps: completedSteps.map((step, index) => ({ ...step, status: index < 2 ? 'finish' : index === 2 ? 'error' : 'wait', time: index <= 2 ? step.time : '' })), logs: ['09:58:01 [INFO] Kafka Broker 连接成功', '10:15:40 [WARN] 消费延迟超过阈值', '10:16:42 [ERROR] 分区 3 数据结构校验失败'], failureReason: '消息字段 wind_direction_code 类型发生变化，当前批次已停止写入。' },
+  { id: 'TASK-20260715-015', name: '广西地质钻孔成果同步', source: '广西地质勘察成果库', triggerMode: '定时调度', startTime: '2026-07-15 01:30:00', endTime: '2026-07-15 01:42:06', duration: '12分6秒', processedVolume: '5.8 GB', added: '12,860', updated: '1,246', skipped: '28', failedCount: 6, status: 'partial', operator: '系统调度', steps: completedSteps, logs: ['01:30:02 [INFO] Oracle 连接成功', '01:38:20 [WARN] 6 条钻孔记录缺少坐标', '01:42:06 [INFO] 有效记录写入完成'], failureReason: '6 条记录缺少空间坐标，已隔离并等待人工补充。' },
+  { id: 'TASK-20260714-014', name: '珠三角 DOM 成果接入', source: '珠三角无人机测绘成果', triggerMode: '人工触发', startTime: '2026-07-14 16:20:00', endTime: '2026-07-14 16:58:42', duration: '38分42秒', processedVolume: '86.4 GB', added: '286', updated: '0', skipped: '4', failedCount: 0, status: 'success', operator: '邓航', steps: completedSteps, logs: ['16:20:02 [INFO] 文件清单读取完成', '16:41:22 [INFO] 空间参考校验通过', '16:58:42 [INFO] DOM 成果入库完成'], failureReason: '' },
+]
+
 const gisFields = [
   ['object_id', '要素唯一编号', 'integer', '100286', '主键'],
   ['line_name', '输电线路名称', 'varchar', '粤东500kV甲线', '输电线路'],
