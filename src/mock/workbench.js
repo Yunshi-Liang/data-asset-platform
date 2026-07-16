@@ -1,8 +1,7 @@
 import { initialAssets } from './assetCatalog'
 import { initialPublishedProducts } from './productPublish'
 import { portalProducts } from './portalData'
-
-export const currentUser={name:'数据管理员',department:'数据管理中心',role:'数据管理员',region:'华南地区',lastLogin:'2026-07-16 08:42'}
+export { currentUser } from './currentUser'
 
 const favoriteNames=['广东省输电线路路径 GIS 数据集','粤港澳大湾区数字高程模型','珠三角地区雷电活动历史数据','广东省电网工程材料价格指标','输电线路杆塔三维模型库','电力工程设计规程规范知识库']
 export const initialFavorites=portalProducts.filter(product=>favoriteNames.includes(product.name)).map((product,index)=>({...product,favoriteAt:`2026-07-${String(15-index).padStart(2,'0')} 10:20`,status:'已发布'}))

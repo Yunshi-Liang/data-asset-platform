@@ -5,9 +5,10 @@ import {
   MenuUnfoldOutlined,
   ThunderboltFilled,
 } from '@ant-design/icons'
-import { Avatar, Breadcrumb, Button, Layout, Menu, Tooltip, Typography } from 'antd'
+import { Avatar, Breadcrumb, Button, Divider, Layout, Menu, Tooltip, Typography } from 'antd'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { getRouteMeta, menuItems } from '../router/config'
+import { currentUser } from '../mock/currentUser'
+import { constructionMenuItems, coreMenuItems, getRouteMeta } from '../router/config'
 
 const { Sider, Content } = Layout
 const { Text } = Typography
@@ -39,21 +40,35 @@ function MainLayout() {
           </span>
           {!collapsed && <span className="brand-name">电力数据资产管理平台</span>}
         </div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          items={menuItems}
-          selectedKeys={currentRoute ? [currentRoute.path] : []}
-          onClick={({ key }) => navigate(key)}
-        />
+        <div className="sider-navigation">
+          {!collapsed && <Text className="sider-section-label">平台核心入口</Text>}
+          <Menu
+            theme="dark"
+            mode="inline"
+            items={coreMenuItems}
+            selectedKeys={currentRoute ? [currentRoute.path] : []}
+            onClick={({ key }) => navigate(key)}
+          />
+          <Divider className="sider-menu-divider" />
+          {!collapsed && <Text className="sider-section-label">数据资产建设流程</Text>}
+          <div className={collapsed ? 'construction-menu is-collapsed' : 'construction-menu'}>
+            <Menu
+              theme="dark"
+              mode="inline"
+              items={constructionMenuItems}
+              selectedKeys={currentRoute ? [currentRoute.path] : []}
+              onClick={({ key }) => navigate(key)}
+            />
+          </div>
+        </div>
         <div className="sider-footer">
           <Tooltip title="进入个人工作台" placement="right">
             <div className="sider-user sider-user-link" role="button" tabIndex={0} onClick={() => navigate('/workbench')} onKeyDown={(event) => { if (event.key === 'Enter') navigate('/workbench') }}>
-              <Avatar className="user-avatar">管</Avatar>
+              <Avatar className="user-avatar">{currentUser.name.slice(0, 1)}</Avatar>
               {!collapsed && (
                 <div className="sider-user-info">
-                  <Text className="user-name">数据管理员</Text>
-                  <Text className="user-role">平台管理员</Text>
+                  <Text className="user-name">{currentUser.name}</Text>
+                  <Text className="user-role">{currentUser.role}</Text>
                 </div>
               )}
             <Button

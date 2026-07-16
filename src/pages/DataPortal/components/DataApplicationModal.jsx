@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
 import { Checkbox, Form, Input, Modal, Select, Typography } from 'antd'
+import { currentUser } from '../../../mock/currentUser'
 
 const { Paragraph, Text } = Typography
 const { TextArea } = Input
@@ -15,12 +15,6 @@ const usagePeriods = ['1 个月', '3 个月', '6 个月', '12 个月'].map((valu
 
 function DataApplicationModal({ product, open, onCancel, onSubmit }) {
   const [form] = Form.useForm()
-
-  useEffect(() => {
-    if (open) {
-      form.setFieldsValue({ applicant: '数据管理员', confidentiality: false })
-    }
-  }, [form, open])
 
   const handleCancel = () => {
     form.resetFields()
@@ -48,16 +42,26 @@ function DataApplicationModal({ product, open, onCancel, onSubmit }) {
           <Paragraph strong>{product.name}</Paragraph>
         </div>
       )}
-      <Form form={form} layout="vertical" preserve={false} onFinish={handleFinish}>
+      <Form
+        form={form}
+        layout="vertical"
+        preserve={false}
+        initialValues={{
+          applicant: currentUser.name,
+          department: currentUser.department,
+          confidentiality: false,
+        }}
+        onFinish={handleFinish}
+      >
         <Form.Item label="申请人" name="applicant">
-          <Input disabled />
+          <Input readOnly />
         </Form.Item>
         <Form.Item
           label="所属部门"
           name="department"
           rules={[{ required: true, message: '请输入所属部门' }]}
         >
-          <Input placeholder="例如：输电工程设计中心" />
+          <Input readOnly />
         </Form.Item>
         <Form.Item
           label="使用项目"

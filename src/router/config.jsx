@@ -10,7 +10,7 @@ import {
 export const routeConfig = [
   {
     path: '/',
-    title: '首页概览',
+    title: '数据资产概览',
     description: '汇总展示平台数据资产建设与运营的整体情况。',
     icon: <HomeOutlined />,
   },
@@ -51,6 +51,9 @@ export const menuItems = routeConfig.map(({ path, title, icon }) => ({
   label: title,
   icon,
 }))
+
+export const coreMenuItems = menuItems.slice(0, 2)
+export const constructionMenuItems = menuItems.slice(2)
 
 export const workbenchRoute = {
   path: '/workbench',

@@ -177,4 +177,10 @@ export const quickActions = [
     path: '/product-publish',
     icon: 'product',
   },
+  {
+    key: 'workbench',
+    title: '个人工作台',
+    path: '/workbench',
+    icon: 'workbench',
+  },
 ]

@@ -47,7 +47,7 @@ function QualityContent({ product }) {
   )
 }
 
-function ProductDetailDrawer({ product, open, favorite, onClose, onFavorite, onApply }) {
+function ProductDetailDrawer({ product, open, favorite, applied, onClose, onFavorite, onApply, onViewApplication }) {
   if (!product) return null
 
   const basicItems = [
@@ -148,8 +148,8 @@ function ProductDetailDrawer({ product, open, favorite, onClose, onFavorite, onA
           >
             {favorite ? '取消收藏' : '收藏产品'}
           </Button>
-          <Button type="primary" icon={<FileAddOutlined />} onClick={() => onApply(product)}>
-            申请使用
+          <Button type="primary" icon={<FileAddOutlined />} onClick={() => applied ? onViewApplication(product) : onApply(product)}>
+            {applied ? '查看申请' : '申请使用'}
           </Button>
         </div>
       }
