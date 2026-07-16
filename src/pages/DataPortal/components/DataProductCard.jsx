@@ -1,5 +1,4 @@
 import {
-  ArrowRightOutlined,
   EyeOutlined,
   StarFilled,
   StarOutlined,
@@ -57,7 +56,7 @@ function DataProductCard({ product, favorite, applied, onFavorite, onViewDetail 
           <Text>申请 {product.applications.toLocaleString()} 次</Text>
         </Space>
         <Space size={6}>
-          <Button type="link" onClick={() => onViewDetail(product)}>查看详情 <ArrowRightOutlined /></Button>
+          <Button type="link" onClick={() => onViewDetail(product)}>查看详情</Button>
           <Tooltip title={favorite ? '取消收藏' : '收藏'}>
             <Button type="text" className={favorite ? 'favorite-button is-favorite' : 'favorite-button'} icon={favorite ? <StarFilled /> : <StarOutlined />} aria-label={`${favorite ? '取消收藏' : '收藏'} ${product.name}`} onClick={() => onFavorite(product)} />
           </Tooltip>

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { CheckCircleFilled, FileDoneOutlined, PlayCircleOutlined, SafetyCertificateOutlined } from '@ant-design/icons'
+import { CheckCircleFilled, CheckOutlined, CloseOutlined, FileDoneOutlined, PlayCircleOutlined, SafetyCertificateOutlined, UserSwitchOutlined } from '@ant-design/icons'
 import { Alert, App, Button, Card, Checkbox, Col, Descriptions, Drawer, Input, Progress, Radio, Result, Row, Select, Space, Statistic, Steps, Switch, Table, Tag, Typography } from 'antd'
 import { catalogDomainOptions, catalogTree, getCatalogPath } from '../../../mock/assetCatalog'
 import { governanceExecutionStages, metadataFields, qualityDimensions, rulesByType } from '../../../mock/dataGovernance'
+import TableIconButton from '../../../components/TableIconButton'
 
 const { Text, Title } = Typography
 const stepTitles = ['标准化处理', '数据质量检查', '元数据完善', '分类分级与标签', '治理确认']
@@ -38,7 +39,7 @@ function QualityAssessment({ issues, onChange }) {
     { title: '严重程度', dataIndex: 'severity', width: 90, render: (value) => <Tag color={severityColors[value]}>{value}</Tag> },
     { title: '推荐处理方式', dataIndex: 'suggestion', width: 220 },
     { title: '状态', dataIndex: 'status', width: 110, render: (value) => <Tag color={statusColors[value]}>{value}</Tag> },
-    { title: '操作', key: 'action', width: 250, render: (_, record) => <Space size={0}><Button type="link" size="small" onClick={() => setOne(record.id, '已接受建议')}>接受建议</Button><Button type="link" size="small" onClick={() => setOne(record.id, '待人工复核')}>人工复核</Button><Button type="link" size="small" onClick={() => setOne(record.id, '已忽略')}>忽略</Button></Space> },
+    { title: '操作', key: 'action', width: 118, render: (_, record) => <div className="table-icon-actions"><TableIconButton label="接受建议" icon={<CheckOutlined />} onClick={() => setOne(record.id, '已接受建议')} /><TableIconButton label="人工复核" icon={<UserSwitchOutlined />} onClick={() => setOne(record.id, '待人工复核')} /><TableIconButton label="忽略" danger icon={<CloseOutlined />} onClick={() => setOne(record.id, '已忽略')} /></div> },
   ]
   const counts = issues.reduce((result, issue) => ({ ...result, [issue.status]: (result[issue.status] || 0) + 1 }), {})
   return <section>{contextHolder}<div className="quality-grid">{qualityDimensions.map((item) => <Card size="small" key={item.key}><Progress type="circle" size={72} percent={item.score} /><div><strong>{item.name}</strong><Text type="secondary">{item.issues} 个问题 · {item.status}</Text></div></Card>)}</div><div className="section-heading"><div><Title level={5}>质量问题与处理建议</Title><Text type="secondary">待处理 {counts['待处理'] || 0} · 待复核 {counts['待人工复核'] || 0} · 已处理/忽略 {(counts['已接受建议'] || 0) + (counts['已忽略'] || 0)}</Text></div><Space><Button disabled={!pending} onClick={() => updateAll('accept')}>全部接受</Button><Button disabled={!pending} onClick={() => updateAll('review')}>全部复核</Button><Button danger disabled={!pending} onClick={() => updateAll('ignore')}>全部忽略</Button></Space></div><Table rowKey="id" size="small" columns={columns} dataSource={issues} pagination={false} scroll={{ x: 1220 }} /></section>

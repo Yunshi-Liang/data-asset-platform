@@ -25,7 +25,7 @@ function AssetCatalog() {
     getSubmittedAssets().forEach((asset) => merged.set(asset.id, enrich(asset)))
     return Array.from(merged.values())
   })
-  const [catalogOpen, setCatalogOpen] = useState(false)
+  const [catalogOpen, setCatalogOpen] = useState(true)
   const [selectedCatalog, setSelectedCatalog] = useState('')
   const [filters, setFilters] = useState(emptyFilters)
   const [selectedAssetId, setSelectedAssetId] = useState(null)
@@ -93,7 +93,7 @@ function AssetCatalog() {
       </Card>
       <AssetProfileDrawer open={Boolean(selectedAsset)} asset={selectedAsset} onClose={() => setSelectedAssetId(null)} onUpdate={updateAsset} onMove={setMoveAsset} onPublish={requestPublish} onToggle={toggleAsset} onCancelPublish={cancelPublish} onRollback={rollback} />
       <CatalogMoveModal open={Boolean(moveAsset)} asset={moveAsset} onCancel={() => setMoveAsset(null)} onSubmit={(catalogKey) => { updateAsset({ ...moveAsset, catalogKey }); setMoveAsset(null); message.success('资产目录已调整') }} />
-      <Modal open={Boolean(publishResult)} title="数据产品上架前检查" width={620} onCancel={() => setPublishResult(null)} footer={publishResult?.code ? <Button type="primary" onClick={() => navigate('/product-publish')}>前往数据产品上架</Button> : <Space><Button onClick={() => setPublishResult(null)}>取消</Button><Button type="primary" disabled={!publishResult?.passed} onClick={submitPublish}>提交上架申请</Button></Space>}>
+      <Modal open={Boolean(publishResult)} title="数据产品上架前检查" width={620} onCancel={() => setPublishResult(null)} footer={publishResult?.code ? <Button type="primary" onClick={() => navigate('/product-publish')}>前往数据产品上架</Button> : <Space><Button onClick={() => setPublishResult(null)}>返回</Button><Button type="primary" disabled={!publishResult?.passed} onClick={submitPublish}>确认申请上架</Button></Space>}>
         {publishResult && <><Typography.Title level={5}>{publishResult.asset.name}</Typography.Title><div className="publish-check-list">{publishResult.checks.map((item) => <div className={item.pass ? 'check-pass' : 'check-fail'} key={item.label}><strong>{item.pass ? '✓' : '✕'} {item.label}</strong><span>{item.detail}</span></div>)}</div>{publishResult.code && <Card className="publish-success"><Typography.Title level={4}>上架申请已提交</Typography.Title><Typography.Text>申请编号：{publishResult.code}</Typography.Text></Card>}</>}
       </Modal>
     </div>

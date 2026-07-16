@@ -7,7 +7,7 @@
 .governance-stat.red .ant-statistic-content-prefix { color: #ff4d4f; }
 .governance-stat.cyan .ant-statistic-content-prefix { color: #13c2c2; }
 .governance-stat.purple .ant-statistic-content-prefix { color: #722ed1; }
-.governance-task-card { margin-top: 18px; border: 1px solid #e8edf5; box-shadow: 0 4px 16px rgba(23, 43, 77, .05); }
+.governance-task-card { margin-top: 0; border: 1px solid #e8edf5; box-shadow: 0 4px 16px rgba(23, 43, 77, .05); }
 .ant-drawer-content-wrapper:has(.workspace-overview) { width: min(1440px, 90vw) !important; max-width: 90vw; }
 
 @media (max-width: 900px) {
@@ -30,7 +30,7 @@
 .section-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin:22px 0 12px; }
 .section-heading h5 { margin:0 0 3px; }
 .governance-workspace > .ant-steps { margin:8px 0 22px; }
-.governance-step-panel { min-height:430px; padding:20px; background:#f8fafc; border:1px solid #e8edf5; border-radius:10px; }
+.governance-step-panel { min-height:400px; padding:16px; background:#f8fafc; border:1px solid #e8edf5; border-radius:10px; }
 .governance-step-actions { display:flex; justify-content:space-between; align-items:center; margin-top:18px; padding-top:16px; border-top:1px solid #edf0f5; }
 .governance-section-stack { display:flex; flex-direction:column; gap:16px; }
 .metadata-table { margin-top:16px; }
