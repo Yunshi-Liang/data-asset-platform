@@ -6,7 +6,7 @@ export const governanceOverview = [
   { key: 'score', label: '平均质量评分', value: 94.6, suffix: '%', precision: 1, tone: 'purple' },
 ]
 
-export const governanceTasks = [
+const governanceTaskSeeds = [
   { id: 'GOV-001', name: '广东输电线路 GIS 数据治理', object: 'transmission_line_segment', source: '广东输电线路 GIS 数据库', type: 'GIS 数据', domain: '电气设计数据', region: '广东省', volume: '860 万条 / 326 GB', records: 8600000, fields: 48, score: 82.6, status: 'pending', owner: '陈明', updateTime: '2026-07-15 10:18', accessTime: '2026-07-15 09:32', category: '电气设计数据 / 输电线路设计', security: '重要数据', department: '输电工程数字化中心' },
   { id: 'GOV-002', name: '广西地质钻孔成果标准化', object: 'geo_borehole_result', source: '广西地质勘察成果库', type: '结构化数据', domain: '勘测数据', region: '广西壮族自治区', volume: '128 万条 / 386 GB', records: 1280000, fields: 62, score: 88.4, status: 'running', owner: '周岩', updateTime: '2026-07-15 10:08', accessTime: '2026-07-15 01:42', category: '勘测数据 / 地质数据', security: '一般数据', department: '勘测工程中心' },
   { id: 'GOV-003', name: '海南水文气象接口数据治理', object: 'weather_station_hourly', source: '海南水文气象 API', type: 'API 数据', domain: '勘测数据', region: '海南省', volume: '2,460 万条 / 68.5 GB', records: 24600000, fields: 26, score: 91.2, status: 'confirming', owner: '林海', updateTime: '2026-07-15 10:12', accessTime: '2026-07-15 10:00', category: '勘测数据 / 水文气象', security: '一般数据', department: '勘测工程中心' },
@@ -16,6 +16,21 @@ export const governanceTasks = [
   { id: 'GOV-007', name: '深圳电网规划项目数据治理', object: 'grid_plan_project', source: '深圳电网规划数据接口', type: 'API 数据', domain: '工程数据', region: '深圳市', volume: '316 万条 / 96.2 GB', records: 3160000, fields: 41, score: 96.3, status: 'completed', owner: '赵越', updateTime: '2026-07-15 08:50', accessTime: '2026-07-15 06:11', category: '工程数据 / 规划项目', security: '一般数据', department: '规划咨询中心' },
   { id: 'GOV-008', name: '湛江沿海风速监测数据治理', object: 'wind_monitor_hourly', source: '湛江沿海风速监测数据', type: '实时数据', domain: '勘测数据', region: '湛江市', volume: '3,680 万条 / 218 GB', records: 36800000, fields: 22, score: 89.5, status: 'running', owner: '许峰', updateTime: '2026-07-15 10:16', accessTime: '2026-07-15 10:16', category: '勘测数据 / 水文气象', security: '一般数据', department: '新能源工程中心' },
 ]
+
+const taskCatalogKeys = {
+  'GOV-001': 'electrical/line/path', 'GOV-002': 'survey/geology/borehole', 'GOV-003': 'survey/weather/rain',
+  'GOV-004': 'cost/price/material', 'GOV-005': 'survey/mapping/uav', 'GOV-006': 'electrical/equipment/transformer',
+  'GOV-007': 'project/archive/research', 'GOV-008': 'survey/weather/wind',
+}
+
+const submittedAssets = { 'GOV-007': 'DA-GD-2026-008' }
+
+export const governanceTasks = governanceTaskSeeds.map((task) => ({
+  ...task,
+  catalogKey: taskCatalogKeys[task.id],
+  catalogSubmission: submittedAssets[task.id] ? 'submitted' : 'unsubmitted',
+  assetCode: submittedAssets[task.id] || '',
+}))
 
 export const rulesByType = {
   'GIS 数据': ['日期时间格式统一', '字符编码统一', '空值表达统一', '行政区划名称统一', '坐标系检查与转换', '经纬度范围检查', '高程单位统一', '字段命名规范化'],
@@ -54,3 +69,28 @@ export const metadataFields = [
 export const governanceExecutionStages = ['加载原始数据', '执行格式标准化', '运行质量规则', '抽取并完善元数据', '推荐分类和安全等级', '生成治理结果']
 export const businessDomains = ['技经数据', '勘测数据', '电气设计数据', '工程数据', '标准知识库']
 export const governanceRegions = ['广东省', '广西壮族自治区', '海南省', '广州市', '深圳市', '珠海市', '湛江市']
+
+export function createGovernanceDraft(task) {
+  const rules = rulesByType[task.type] || rulesByType['结构化数据']
+  const segments = task.catalogKey.split('/')
+  return {
+    phase: task.status === 'completed' ? 'completed' : task.status === 'pending' || task.status === 'failed' ? 'ready' : 'workspace',
+    currentStep: task.status === 'confirming' ? 4 : task.status === 'running' ? 1 : 0,
+    enabledRules: [...rules],
+    issues: initialQualityIssues.map((issue) => ({ ...issue })),
+    metadata: {
+      chineseName: task.name.replace('治理', '').replace('标准化', ''),
+      meaning: `${task.source}接入形成的${task.domain}数据，用于华南地区电力工程设计与分析。`,
+      department: task.department,
+      owner: task.owner,
+      frequency: task.type === '实时数据' ? '实时' : '每天',
+      scenario: '电力工程规划、勘测设计与数据分析',
+    },
+    classification: {
+      domainKey: segments[0], secondKey: segments.slice(0, 2).join('/'), catalogKey: task.catalogKey,
+      form: task.type === 'API 数据' ? 'API 服务' : task.type,
+      lifecycle: task.domain === '勘测数据' ? '勘测' : '设计', security: task.security,
+      tags: task.type === 'GIS 数据' ? ['GIS', '工程设计', '华南地区', '高价值数据'] : ['华南地区', '高频使用'],
+    },
+  }
+}
