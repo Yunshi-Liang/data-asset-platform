@@ -210,8 +210,6 @@ function DataPortal() {
                 applied={applicationsByProduct.has(product.id)}
                 onFavorite={handleFavorite}
                 onViewDetail={(item) => setSelectedProductId(item.id)}
-                onApply={openApplication}
-                onViewApplication={viewApplication}
               />
             ))}
           </div>

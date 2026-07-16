@@ -1,11 +1,10 @@
 import {
   ArrowRightOutlined,
   EyeOutlined,
-  FileDoneOutlined,
   StarFilled,
   StarOutlined,
 } from '@ant-design/icons'
-import { Button, Card, Progress, Space, Tag, Typography } from 'antd'
+import { Button, Card, Progress, Space, Tag, Tooltip, Typography } from 'antd'
 
 const { Paragraph, Text, Title } = Typography
 
@@ -14,7 +13,7 @@ const securityColors = {
   重要数据: 'orange',
 }
 
-function DataProductCard({ product, favorite, applied, onFavorite, onViewDetail, onApply, onViewApplication }) {
+function DataProductCard({ product, favorite, applied, onFavorite, onViewDetail }) {
   return (
     <Card className="data-product-card">
       <div className="product-card-topline">
@@ -23,11 +22,7 @@ function DataProductCard({ product, favorite, applied, onFavorite, onViewDetail,
           <Tag>{product.dataType}</Tag>
           <Tag color={securityColors[product.securityLevel]}>{product.securityLevel}</Tag>
         </Space>
-        {applied && (
-          <Tag icon={<FileDoneOutlined />} color="processing">
-            已申请
-          </Tag>
-        )}
+        {applied && <Tag color="processing">已申请</Tag>}
       </div>
 
       <Title level={4} title={product.name}>
@@ -62,21 +57,10 @@ function DataProductCard({ product, favorite, applied, onFavorite, onViewDetail,
           <Text>申请 {product.applications.toLocaleString()} 次</Text>
         </Space>
         <Space size={6}>
-          <Button type={applied ? 'default' : 'primary'} onClick={() => applied ? onViewApplication(product) : onApply(product)}>
-            {applied ? '查看申请' : '申请使用'}
-          </Button>
-          <Button
-            type="text"
-            className={favorite ? 'favorite-button is-favorite' : 'favorite-button'}
-            icon={favorite ? <StarFilled /> : <StarOutlined />}
-            aria-label={`${favorite ? '取消收藏' : '收藏'} ${product.name}`}
-            onClick={() => onFavorite(product)}
-          >
-            {favorite ? '已收藏' : '收藏'}
-          </Button>
-          <Button type="link" onClick={() => onViewDetail(product)}>
-            查看详情 <ArrowRightOutlined />
-          </Button>
+          <Button type="link" onClick={() => onViewDetail(product)}>查看详情 <ArrowRightOutlined /></Button>
+          <Tooltip title={favorite ? '取消收藏' : '收藏'}>
+            <Button type="text" className={favorite ? 'favorite-button is-favorite' : 'favorite-button'} icon={favorite ? <StarFilled /> : <StarOutlined />} aria-label={`${favorite ? '取消收藏' : '收藏'} ${product.name}`} onClick={() => onFavorite(product)} />
+          </Tooltip>
         </Space>
       </div>
     </Card>

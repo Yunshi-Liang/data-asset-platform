@@ -101,7 +101,7 @@ export const assetStatusMeta = {
 export const canAssetAction = (status, action) => assetStatusMeta[status]?.actions.includes(action) ?? false
 
 const baseAssets = [
-  ['DA-GD-2026-001','广东省输电线路路径 GIS 数据集','electrical/line/path','电气设计数据','GIS 数据','广东省','广东输电线路 GIS 数据库',98,'重要数据','待申请上架',['输电线路','GIS','高价值']],
+  ['DA-GD-2026-001','广东省输电线路路径 GIS 数据集','electrical/line/path','电气设计数据','GIS 数据','广东省','广东输电线路 GIS 数据库',98,'重要数据','已申请上架',['输电线路','GIS','高价值']],
   ['DA-GD-2026-002','粤港澳大湾区数字高程模型','survey/mapping/dem','勘测数据','GIS 数据','广东省','珠三角无人机测绘成果',97,'一般数据','已申请上架',['DEM','高程数据','华南地区']],
   ['DA-GX-2026-003','广西地质钻孔与岩土试验成果','survey/geology/borehole','勘测数据','结构化数据','广西壮族自治区','广西地质勘察成果库',95,'重要数据','待申请上架',['地质钻孔','岩土试验']],
   ['DA-HN-2026-004','海南水文气象逐小时观测数据','survey/weather/rain','勘测数据','API 服务','海南省','海南水文气象 API',94,'一般数据','待申请上架',['水文气象','API']],

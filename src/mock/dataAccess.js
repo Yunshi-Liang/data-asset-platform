@@ -10,7 +10,7 @@ export const sourceTypeGroups = [
   { key: 'database', title: '数据库接入', icon: 'database', types: ['Oracle', 'MySQL', 'SQL Server', 'PostgreSQL'] },
   { key: 'api', title: 'API 接入', icon: 'api', types: ['REST API', 'WebService', '第三方开放接口'] },
   { key: 'file', title: '文件接入', icon: 'file', types: ['Excel', 'CSV', 'JSON', 'XML'] },
-  { key: 'gis', title: 'GIS 与勘测文件', icon: 'gis', types: ['Shapefile', 'GeoJSON', 'GeoTIFF', 'DEM', 'DOM'] },
+  { key: 'gis', title: 'GIS 与勘测文件', icon: 'gis', types: ['Shapefile', 'GDB（ZIP 压缩包）', 'GeoJSON', 'KML', 'GeoTIFF'] },
   { key: 'design', title: '设计成果文件', icon: 'design', types: ['DWG', 'DXF', 'IFC', '三维模型文件'] },
   { key: 'realtime', title: '实时数据接入', icon: 'realtime', types: ['Kafka', 'RabbitMQ', 'OPC', 'Modbus'] },
 ]

@@ -5,7 +5,7 @@ export const PRODUCT_STATUS = { pending: '待上架', listed: '已上架' }
 
 export const createListingAssets = (statusOverrides = new Map()) => initialAssets
   .map((asset) => ({ ...asset, status: statusOverrides.get(asset.id) || asset.status, catalogName: getCatalogPath(asset.catalogKey), listingStatus: PRODUCT_STATUS.pending }))
-  .filter((asset) => asset.status === ASSET_STATUS.pendingPublish)
+  .filter((asset) => asset.status === ASSET_STATUS.publishApplied)
 
 export const initialListedProducts = [
   {id:'PP-002',assetId:'DA-GD-2026-002',code:'DP-GD-DEM-20260702',name:'粤港澳大湾区数字高程模型',assetName:'粤港澳大湾区数字高程模型',publishedAt:'2026-07-10 09:20',views:4216,applications:318,favorites:245,downloads:1026,apiCalls:0,status:'已上架',owner:'周岩',domain:'勘测数据',region:'广东省',format:'GeoTIFF、GDB',qualityScore:97,permission:'部门审批',accessMethods:['文件下载','在线查看'],description:'面向大湾区电力工程选址与路径设计的高精度 DEM、等高线及坡度分析成果。'},

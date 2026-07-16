@@ -154,7 +154,7 @@ export const hotAssets = [
 export const quickActions = [
   {
     key: 'portal',
-    title: '数据资产门户',
+    title: '数据产品门户',
     path: '/data-portal',
     icon: 'portal',
   },

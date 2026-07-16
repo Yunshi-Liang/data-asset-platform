@@ -1,10 +1,5 @@
 import { useState } from 'react'
-import {
-  BellOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  ThunderboltFilled,
-} from '@ant-design/icons'
+import { LeftOutlined, RightOutlined, ThunderboltFilled } from '@ant-design/icons'
 import { Avatar, Breadcrumb, Button, Divider, Layout, Menu, Tooltip, Typography } from 'antd'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { currentUser } from '../mock/currentUser'
@@ -41,7 +36,6 @@ function MainLayout() {
           {!collapsed && <span className="brand-name">电力数据资产管理平台</span>}
         </div>
         <div className="sider-navigation">
-          {!collapsed && <Text className="sider-section-label">平台核心入口</Text>}
           <Menu
             theme="dark"
             mode="inline"
@@ -50,7 +44,6 @@ function MainLayout() {
             onClick={({ key }) => navigate(key)}
           />
           <Divider className="sider-menu-divider" />
-          {!collapsed && <Text className="sider-section-label">数据资产建设流程</Text>}
           <div className={collapsed ? 'construction-menu is-collapsed' : 'construction-menu'}>
             <Menu
               theme="dark"
@@ -71,25 +64,18 @@ function MainLayout() {
                   <Text className="user-role">{currentUser.role}</Text>
                 </div>
               )}
-            <Button
-              type="text"
-              className="sider-notification-button"
-              icon={<BellOutlined />}
-              aria-label="消息通知"
-              onClick={(event) => event.stopPropagation()}
-            />
             </div>
           </Tooltip>
+        </div>
+        <Tooltip title={collapsed ? '展开侧边栏' : '收起侧边栏'} placement="right">
           <Button
             type="text"
             className="sider-collapse-button"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            icon={collapsed ? <RightOutlined /> : <LeftOutlined />}
             onClick={() => setCollapsed((value) => !value)}
             aria-label={collapsed ? '展开侧边栏' : '折叠侧边栏'}
-          >
-            {!collapsed && '收起侧边栏'}
-          </Button>
-        </div>
+          />
+        </Tooltip>
       </Sider>
 
       <Layout className="site-layout">

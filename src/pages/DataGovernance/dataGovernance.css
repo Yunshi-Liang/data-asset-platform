@@ -7,7 +7,12 @@
 .governance-stat.red .ant-statistic-content-prefix { color: #ff4d4f; }
 .governance-stat.cyan .ant-statistic-content-prefix { color: #13c2c2; }
 .governance-stat.purple .ant-statistic-content-prefix { color: #722ed1; }
-.governance-task-card { border: 1px solid #e8edf5; box-shadow: 0 4px 16px rgba(23, 43, 77, .05); }
+.governance-task-card { margin-top: 18px; border: 1px solid #e8edf5; box-shadow: 0 4px 16px rgba(23, 43, 77, .05); }
+.ant-drawer-content-wrapper:has(.workspace-overview) { width: min(1440px, 90vw) !important; max-width: 90vw; }
+
+@media (max-width: 900px) {
+  .ant-drawer-content-wrapper:has(.workspace-overview) { width: 96vw !important; max-width: 96vw; }
+}
 .governance-filters { display: grid; grid-template-columns: minmax(260px, 1.5fr) repeat(4, minmax(130px, .75fr)) auto; gap: 12px; margin-bottom: 16px; }
 .workspace-overview { margin-bottom: 20px; }
 .governance-ready { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 28px 0; }
