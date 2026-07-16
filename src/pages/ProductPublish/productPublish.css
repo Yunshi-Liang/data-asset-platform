@@ -1,11 +1,20 @@
 .product-publish-page { min-width: 0; }
-.publish-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.publish-title { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 18px; }
 .publish-title .ant-typography { margin-top: 0; }
-.publish-stat { height: 100%; border-top: 3px solid #1677ff; }
+.publish-overview-compact { display:flex; align-items:center; gap:28px; padding:10px 18px; border:1px solid #e5ebf3; border-radius:8px; background:#fff; }
+.publish-overview-compact .ant-statistic + .ant-statistic { padding-left:28px; border-left:1px solid #e8edf5; }
+.publish-overview-compact .ant-statistic-title { margin-bottom:2px; font-size:12px; }
+.publish-overview-compact .ant-statistic-content { color:#1677ff; font-size:23px; }
 .publish-section { margin-top: 16px; }
 .wizard-content { min-height: 430px; margin-top: 24px; padding: 20px; background: #f8fafc; border-radius: 10px; }
 .wizard-footer { display: flex; justify-content: flex-end; gap: 10px; padding-top: 16px; }
 .wizard-block { margin-top: 18px; }
+.quality-review-layout { padding:16px; border-radius:10px; background:#eef2f7; }
+.quality-score-card, .quality-score-card .ant-card-body { height:100%; }
+.quality-score-card .ant-card-body { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:18px; }
+.security-review-grid .ant-card { height:100%; }
+.security-review-grid .ant-card-body { min-height:104px; padding:18px; }
+.portal-preview .ant-tag { margin-inline-end:0; }
 .wizard-step-stack { width: 100%; }
 .review-list { display: grid; gap: 10px; }
 .review-list > div { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: 8px; }
@@ -15,6 +24,7 @@
 .portal-preview h3 { margin: 12px 0 8px; }
 .detail-list { margin-top: 16px; }
 @media (max-width: 1000px) {
+  .publish-title { align-items: flex-start; flex-direction: column; }
   .product-publish-page > .ant-row .ant-col { flex: 0 0 50%; max-width: 50%; margin-bottom: 12px; }
   .wizard-content { padding: 14px; }
   .wizard-content .ant-col { max-width: 100%; flex: 0 0 100%; }

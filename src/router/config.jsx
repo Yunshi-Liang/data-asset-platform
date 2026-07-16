@@ -16,8 +16,8 @@ export const routeConfig = [
   },
   {
     path: '/data-portal',
-    title: '数据资产门户',
-    description: '面向用户提供统一的数据资产检索、浏览与服务入口。',
+    title: '数据产品门户',
+    description: '面向用户提供已上架数据产品的统一检索、浏览与申请入口。',
     icon: <AppstoreOutlined />,
   },
   {

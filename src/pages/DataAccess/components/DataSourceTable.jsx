@@ -1,4 +1,4 @@
-import { EditOutlined, PauseCircleOutlined, PlayCircleOutlined, SyncOutlined } from '@ant-design/icons'
+import { PauseCircleOutlined, PlayCircleOutlined, SyncOutlined } from '@ant-design/icons'
 import { Button, Popconfirm, Space, Table, Tag, Typography } from 'antd'
 
 const { Text } = Typography
@@ -24,11 +24,11 @@ function DataSourceTable({ data, syncingIds, onDetail, onEdit, onSync, onToggle 
       title: '操作', key: 'action', width: 220, fixed: 'right',
       render: (_, record) => (
         <Space size={4}>
-          <Button type="link" size="small" onClick={() => onDetail(record)}>查看详情</Button>
-          <Button type="link" size="small" icon={<SyncOutlined spin={syncingIds.has(record.id)} />} loading={syncingIds.has(record.id)} disabled={record.status === 'disabled'} onClick={() => onSync(record)}>立即同步</Button>
-          <Button type="text" size="small" icon={<EditOutlined />} aria-label={`编辑${record.name}`} onClick={() => onEdit(record)} />
+          <Button type="link" size="small" onClick={() => onDetail(record)}>详情</Button>
+          <Button type="link" size="small" onClick={() => onEdit(record)}>编辑</Button>
+          <Button type="link" size="small" icon={<SyncOutlined spin={syncingIds.has(record.id)} />} loading={syncingIds.has(record.id)} disabled={record.status === 'disabled'} onClick={() => onSync(record)}>同步</Button>
           <Popconfirm title={record.status === 'disabled' ? '确认启用该数据源？' : '确认停用该数据源？'} description={record.status === 'disabled' ? '启用后将恢复计划同步。' : '停用后将暂停所有同步任务。'} onConfirm={() => onToggle(record)} okText="确认" cancelText="取消">
-            <Button type="text" size="small" icon={record.status === 'disabled' ? <PlayCircleOutlined /> : <PauseCircleOutlined />} aria-label={`${record.status === 'disabled' ? '启用' : '停用'}${record.name}`} />
+            <Button type="link" size="small" icon={record.status === 'disabled' ? <PlayCircleOutlined /> : <PauseCircleOutlined />}>{record.status === 'disabled' ? '启用' : '停用'}</Button>
           </Popconfirm>
         </Space>
       ),

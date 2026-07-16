@@ -52,9 +52,15 @@ const connectionDefaults = {
   database: {},
   api: { method: 'GET', auth: '无需认证' },
   file: { encoding: '自动识别' },
-  gis: { encoding: '自动识别', coordinate: 'CGCS2000', layerType: '线要素' },
+  gis: { encoding: '自动识别', coordinate: 'CGCS2000' },
   design: { encoding: '自动识别' },
   realtime: { protocol: 'PLAINTEXT' },
+}
+
+const encodingOptions = ['自动识别', 'UTF-8', 'GBK', 'GB2312', 'Big5', 'ISO-8859-1'].map((value) => ({ value, label: value }))
+
+function EncodingField() {
+  return <Form.Item name="encoding" label="编码方式" rules={[{ required: true }]}><Select options={encodingOptions} /></Form.Item>
 }
 
 function FileUpload({ text }) {
@@ -89,10 +95,10 @@ function ConnectionFields({ group, type, groupConfig }) {
     return <><SelectedTypeSummary groupConfig={groupConfig} type={type} /><Form.Item name="apiUrl" label="接口地址" rules={[{ required: true }, { type: 'url' }]}><Input placeholder="https://api.example.cn/v1/data" /></Form.Item><Row gutter={16}><Col span={8}><Form.Item name="method" label="请求方式" rules={[{ required: true }]}><Select options={['GET', 'POST'].map((value) => ({ value, label: value }))} /></Form.Item></Col><Col span={16}><Form.Item name="auth" label="认证方式" rules={[{ required: true }]}><Select options={['Bearer Token', 'API Key', 'Basic Auth', '无需认证'].map((value) => ({ value, label: value }))} /></Form.Item></Col></Row><Form.Item name="headers" label="请求头"><Input.TextArea rows={2} placeholder='例如：{"Content-Type":"application/json"}' /></Form.Item><Form.Item name="params" label="请求参数"><Input.TextArea rows={2} placeholder='例如：{"region":"广东省"}' /></Form.Item></>
   }
   if (group === 'file') {
-    return <><SelectedTypeSummary groupConfig={groupConfig} type={type} /><FileUpload text={`点击或拖拽 ${type || '文件'} 到此区域`} /><Descriptions size="small" bordered column={2} items={[{ key: 'type', label: '文件类型', children: type }, { key: 'encoding', label: '编码方式', children: '自动识别' }]} /><Form.Item name="encoding" hidden><Input /></Form.Item></>
+    return <><SelectedTypeSummary groupConfig={groupConfig} type={type} /><FileUpload text={`点击或拖拽 ${type || '文件'} 到此区域`} /><Row gutter={16}><Col span={12}><Form.Item label="文件类型"><Input readOnly value={type} /></Form.Item></Col><Col span={12}><EncodingField /></Col></Row></>
   }
   if (group === 'gis') {
-    return <><SelectedTypeSummary groupConfig={groupConfig} type={type} /><FileUpload text={`点击或拖拽 ${type || 'GIS 文件'} 到此区域`} /><Row gutter={16}><Col span={8}><Form.Item name="coordinate" label="坐标系" rules={[{ required: true }]}><Select options={['CGCS2000', 'WGS84', '西安80'].map((value) => ({ value, label: value }))} /></Form.Item></Col><Col span={8}><Form.Item name="layerType" label="图层类型" rules={[{ required: true }]}><Select options={['线要素', '点要素', '面要素', '栅格'].map((value) => ({ value, label: value }))} /></Form.Item></Col><Col span={8}><Form.Item name="spatialReference" label="空间参考"><Input placeholder="例如：EPSG:4490" /></Form.Item></Col></Row><Form.Item name="extent" label="空间范围"><Input placeholder="例如：广东省输电通道范围" /></Form.Item><Form.Item name="encoding" hidden><Input /></Form.Item></>
+    return <><SelectedTypeSummary groupConfig={groupConfig} type={type} /><FileUpload text={`点击或拖拽 ${type || 'GIS 文件'} 到此区域`} /><Alert className="gis-file-hint" type="info" showIcon message={`${type || '空间数据'}将按空间文件方式识别，Demo 不执行真实解析。`} /><Row gutter={16}><Col span={12}><Form.Item label="数据类型"><Input readOnly value={type} /></Form.Item></Col><Col span={12}><EncodingField /></Col><Col span={12}><Form.Item name="coordinate" label="坐标系" rules={[{ required: true }]}><Select options={['CGCS2000', 'WGS84', '西安80'].map((value) => ({ value, label: value }))} /></Form.Item></Col><Col span={12}><Form.Item name="extent" label="空间范围"><Input placeholder="例如：广东省输电通道范围" /></Form.Item></Col></Row></>
   }
   if (group === 'design') {
     return <><SelectedTypeSummary groupConfig={groupConfig} type={type} /><FileUpload text={`点击或拖拽 ${type || '设计成果文件'} 到此区域`} /><Row gutter={16}><Col span={8}><Form.Item name="fileVersion" label="文件版本"><Input placeholder="例如：2024" /></Form.Item></Col><Col span={8}><Form.Item name="designSoftware" label="设计软件"><Select options={['AutoCAD', 'Revit', 'Bentley', '其他'].map((value) => ({ value, label: value }))} /></Form.Item></Col><Col span={8}><Form.Item name="discipline" label="成果专业"><Select options={['输电', '变电', '勘测', '建筑结构'].map((value) => ({ value, label: value }))} /></Form.Item></Col></Row><Form.Item name="encoding" hidden><Input /></Form.Item></>
@@ -165,7 +171,7 @@ function CreateAccessDrawer({ open, mode = 'general', presetGroup, onClose, onCr
     if (!open || current !== 1 || !group) return
     connectionForm.resetFields()
     connectionForm.setFieldsValue(connectionDefaults[group] || {})
-  }, [connectionForm, current, group, open, type])
+  }, [connectionForm, current, group, open])
   useEffect(() => {
     if (!open || current !== 3) return
     syncForm.resetFields()
