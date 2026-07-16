@@ -1,0 +1,253 @@
+:root {
+  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #1f2937;
+  background: #f3f6fa;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-width: 1024px;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: #f3f6fa;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.app-layout {
+  min-height: 100vh;
+}
+
+.app-sider {
+  position: fixed !important;
+  inset-block: 0;
+  inset-inline-start: 0;
+  z-index: 20;
+  overflow: hidden;
+  box-shadow: 3px 0 14px rgb(8 30 66 / 14%);
+}
+
+.brand {
+  display: flex;
+  height: 82px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 19px;
+  color: #fff;
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.brand-icon {
+  display: inline-flex;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  color: #fff;
+  background: #1677ff;
+  font-size: 19px;
+}
+
+.brand-name {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.app-sider .ant-menu {
+  flex: 1;
+  padding: 20px 8px;
+  border-inline-end: 0;
+  overflow-y: auto;
+}
+
+.app-sider .ant-layout-sider-children {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
+.app-sider .ant-menu-item {
+  margin-block: 6px;
+}
+
+.sider-footer {
+  flex-shrink: 0;
+  padding: 12px;
+  border-top: 1px solid rgb(255 255 255 / 10%);
+}
+
+.sider-user {
+  display: flex;
+  min-height: 48px;
+  padding: 6px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 7px;
+}
+
+.sider-user-link {
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.sider-user-link:hover,
+.sider-user-link:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+.sider-user-info {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  line-height: 1.35;
+}
+
+.sider-user .user-name {
+  color: #f8fafc;
+  font-size: 13px;
+}
+
+.sider-user .user-role {
+  color: #7890b1;
+  font-size: 11px;
+}
+
+.sider-notification-button,
+.sider-collapse-button {
+  color: #9fb0c8;
+}
+
+.sider-notification-button:hover,
+.sider-collapse-button:hover {
+  color: #fff !important;
+  background: rgb(255 255 255 / 8%) !important;
+}
+
+.sider-collapse-button {
+  display: flex;
+  width: 100%;
+  height: 38px;
+  margin-top: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  padding-inline: 11px;
+}
+
+.ant-layout-sider-collapsed .sider-footer {
+  padding-inline: 10px;
+}
+
+.ant-layout-sider-collapsed .sider-user {
+  flex-direction: column;
+  padding: 5px 0;
+}
+
+.ant-layout-sider-collapsed .sider-notification-button,
+.ant-layout-sider-collapsed .sider-collapse-button {
+  justify-content: center;
+}
+
+.ant-layout-sider-collapsed .sider-collapse-button {
+  padding-inline: 0;
+}
+
+.site-layout {
+  margin-inline-start: 232px;
+  transition: margin-inline-start 0.2s;
+}
+
+.ant-layout-sider-collapsed + .site-layout {
+  margin-inline-start: 72px;
+}
+
+.user-avatar {
+  background: #1677ff;
+  font-size: 13px;
+}
+
+.app-main {
+  padding: 24px 24px 28px;
+}
+
+.app-breadcrumb {
+  margin-bottom: 16px;
+  color: #64748b;
+}
+
+.page-panel {
+  min-height: calc(100vh - 68px);
+  padding: 28px 30px;
+  border: 1px solid #e7edf5;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgb(31 55 85 / 4%);
+}
+
+.page-heading {
+  padding-bottom: 22px;
+  border-bottom: 1px solid #edf1f6;
+}
+
+.page-heading .ant-typography {
+  margin: 0;
+}
+
+.page-heading h2.ant-typography {
+  margin-bottom: 8px;
+  color: #172033;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.page-heading p.ant-typography {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.placeholder-area {
+  display: flex;
+  min-height: 280px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #94a3b8;
+  font-size: 15px;
+}
+
+.placeholder-icon {
+  color: #1677ff;
+  font-size: 20px;
+}
+
+.not-found-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

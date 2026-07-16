@@ -1,0 +1,32 @@
+.data-governance-page { display: flex; flex-direction: column; gap: 20px; }
+.governance-heading h2 { margin: 0 0 4px; }
+.governance-overview { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+.governance-stat { border: 1px solid #e8edf5; box-shadow: 0 3px 12px rgba(23, 43, 77, .04); }
+.governance-stat .ant-statistic-content-prefix { margin-right: 10px; color: #1677ff; }
+.governance-stat.green .ant-statistic-content-prefix { color: #52c41a; }
+.governance-stat.red .ant-statistic-content-prefix { color: #ff4d4f; }
+.governance-stat.cyan .ant-statistic-content-prefix { color: #13c2c2; }
+.governance-stat.purple .ant-statistic-content-prefix { color: #722ed1; }
+.governance-task-card { border: 1px solid #e8edf5; box-shadow: 0 4px 16px rgba(23, 43, 77, .05); }
+.governance-filters { display: grid; grid-template-columns: minmax(260px, 1.5fr) repeat(4, minmax(130px, .75fr)) auto; gap: 12px; margin-bottom: 16px; }
+.workspace-overview { margin-bottom: 20px; }
+.governance-ready { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 28px 0; }
+.governance-ready > .anticon { color: #1677ff; font-size: 42px; }
+.governance-ready h3 { margin: 0; }
+.governance-ready > .ant-typography { text-align: center; max-width: 720px; }
+.governance-ready .rule-grid { width: 100%; }
+.rule-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 18px 0 24px; }
+.rule-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.governance-execution { max-width: 680px; margin: 36px auto; }
+.governance-execution > .ant-progress { margin: 12px 0 24px; }
+.quality-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 18px 0 24px; }
+.quality-grid .ant-card-body { display: flex; align-items: center; gap: 14px; }
+.quality-grid .ant-card-body > div { display: flex; flex-direction: column; gap: 4px; }
+.ant-tabs-tabpane > div > h5 { margin-top: 20px; }
+.ant-tabs-tabpane label { display: block; font-weight: 500; margin: 14px 0 6px; }
+.security-alert { margin-top: 18px; }
+.comparison-grid { margin: 18px 0; }
+.finish-button { margin-top: 20px; }
+.full-width { width: 100%; }
+@media (max-width: 1200px) { .governance-overview { grid-template-columns: repeat(3, 1fr); } .governance-filters { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px) { .governance-overview, .quality-grid, .rule-grid { grid-template-columns: 1fr 1fr; } }

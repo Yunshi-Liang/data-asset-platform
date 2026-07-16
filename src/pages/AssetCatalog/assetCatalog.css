@@ -1,0 +1,28 @@
+.asset-catalog-page { min-width: 0; }
+.page-title-row { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:18px; }
+.page-title-row .ant-typography { margin-top:0; }
+.catalog-tree-panel { height:100%; min-height:680px; padding:18px 14px; background:#fff; border:1px solid #eef1f6; border-radius:10px; }
+.catalog-tree-panel .ant-input-affix-wrapper { margin:10px 0 14px; }
+.catalog-tree-panel .ant-tree { max-height:620px; overflow:auto; }
+.asset-list-card { min-width:0; }
+.asset-filters { margin-bottom:16px; }
+.asset-filters .ant-input-affix-wrapper { width:300px; }
+.asset-filters .ant-select { width:132px; }
+.asset-filters > .ant-input { width:130px; }
+.table-name { height:auto; padding:0; text-align:left; white-space:normal; }
+.profile-heading { padding:2px 0 14px; }
+.profile-heading h4 { margin:0; }
+.tag-row { margin:10px 0; }
+.profile-summary { margin-bottom:18px; }
+.profile-summary .ant-statistic-content { font-size:22px; }
+.profile-section { margin-top:18px; }
+.quality-item { padding:8px 12px; background:#f7f9fc; border-radius:8px; }
+.lineage-steps { margin:28px 0; }
+.score-card { text-align:center; height:100%; }
+.score-card h4 { margin:0; }
+.publish-check-list { display:grid; gap:10px; margin:18px 0; }
+.publish-check-list > div { display:flex; justify-content:space-between; padding:12px 14px; border-radius:8px; }
+.check-pass { color:#237804; background:#f6ffed; }
+.check-fail { color:#a8071a; background:#fff1f0; }
+.publish-success { text-align:center; background:#f6ffed; }
+@media (max-width: 1100px) { .asset-catalog-page > .ant-row > .ant-col:first-child { flex:0 0 230px !important; } .profile-summary .ant-col { flex:0 0 33.333%; max-width:33.333%; margin-bottom:10px; } }

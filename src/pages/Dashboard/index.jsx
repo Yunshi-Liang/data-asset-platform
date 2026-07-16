@@ -1,0 +1,26 @@
+import AssetDistribution from './components/AssetDistribution'
+import HotAssets from './components/HotAssets'
+import LatestNews from './components/LatestNews'
+import QuickActions from './components/QuickActions'
+import StatisticsCards from './components/StatisticsCards'
+import './dashboard.css'
+
+function Dashboard() {
+  return (
+    <div className="dashboard-page">
+      <StatisticsCards />
+
+      <div className="dashboard-grid dashboard-overview-grid">
+        <AssetDistribution />
+        <LatestNews />
+      </div>
+
+      <div className="dashboard-grid dashboard-business-grid">
+        <HotAssets />
+        <QuickActions />
+      </div>
+    </div>
+  )
+}
+
+export default Dashboard
