@@ -59,7 +59,7 @@ function ProductDetailDrawer({ product, open, favorite, applied, onClose, onFavo
     ['数据格式', product.format],
     ['数据规模', product.size],
     ['更新频率', product.updateFrequency],
-    ['发布时间', product.publishedAt],
+    ['上架时间', product.publishedAt],
     ['责任部门', product.department],
     ['安全等级', product.securityLevel],
     ['使用方式', product.accessMethod],

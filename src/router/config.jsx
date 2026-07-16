@@ -41,7 +41,7 @@ export const routeConfig = [
   {
     path: '/product-publish',
     title: '数据产品上架',
-    description: '管理数据产品的申请、审核与发布上架过程。',
+    description: '管理数据资产封装、检查、上架与下架过程。',
     icon: <ProductOutlined />,
   },
 ]

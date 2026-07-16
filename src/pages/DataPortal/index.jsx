@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import { Empty, Typography, message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { portalProducts } from '../../mock/portalData'
-import { currentUser } from '../../mock/currentUser'
+import { createApplicationRecord } from '../../mock/application'
 import { addSessionApplication } from '../../utils/applicationSession'
 import CategoryNavigation from './components/CategoryNavigation'
 import DataApplicationModal from './components/DataApplicationModal'
@@ -160,21 +160,12 @@ function DataPortal() {
   const handleApplicationSubmit = (product, values) => {
     const applicationNumber = `DA-202607-${String(applicationSequence.current).padStart(3, '0')}`
     applicationSequence.current += 1
-    const application = {
+    const application = createApplicationRecord({
       id: applicationNumber,
-      productName: product.name,
-      productCode: product.code,
-      method: values.method,
-      project: values.project,
-      purpose: values.purpose,
+      product,
+      values,
       submittedAt: new Date().toLocaleString('zh-CN', { hour12: false }),
-      period: values.period,
-      node: '部门负责人审批',
-      status: '审批中',
-      applicant: currentUser.name,
-      department: currentUser.department,
-      confidentiality: '已承诺',
-    }
+    })
     setApplicationsByProduct((current) => new Map(current).set(product.id, application))
     addSessionApplication(application)
     setApplicationIncrements((current) => ({

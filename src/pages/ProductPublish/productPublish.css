@@ -1,1 +1,21 @@
-.product-publish-page{min-width:0}.publish-title{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}.publish-title .ant-typography{margin-top:0}.publish-stat{height:100%;border-top:3px solid #1677ff}.publish-section{margin-top:16px}.wizard-content{min-height:430px;margin-top:24px;padding:20px;background:#f8fafc;border-radius:10px}.wizard-footer{display:flex;justify-content:flex-end;gap:10px;padding-top:16px}.wizard-block{margin-top:18px}.review-list{display:grid;gap:10px}.review-list>div{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:8px}.review-pass{color:#237804;background:#f6ffed}.review-fail{color:#a8071a;background:#fff1f0}.portal-preview{padding:22px;background:#fff;border:1px solid #e6ebf2;border-radius:10px;box-shadow:0 4px 16px rgba(15,35,68,.06)}.portal-preview h3{margin:12px 0 8px}.detail-list{margin-top:16px}@media(max-width:1000px){.product-publish-page>.ant-row .ant-col{flex:0 0 50%;max-width:50%;margin-bottom:12px}.wizard-content{padding:14px}.wizard-content .ant-col{max-width:100%;flex:0 0 100%}}
+.product-publish-page { min-width: 0; }
+.publish-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.publish-title .ant-typography { margin-top: 0; }
+.publish-stat { height: 100%; border-top: 3px solid #1677ff; }
+.publish-section { margin-top: 16px; }
+.wizard-content { min-height: 430px; margin-top: 24px; padding: 20px; background: #f8fafc; border-radius: 10px; }
+.wizard-footer { display: flex; justify-content: flex-end; gap: 10px; padding-top: 16px; }
+.wizard-block { margin-top: 18px; }
+.wizard-step-stack { width: 100%; }
+.review-list { display: grid; gap: 10px; }
+.review-list > div { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: 8px; }
+.review-pass { color: #237804; background: #f6ffed; }
+.review-fail { color: #a8071a; background: #fff1f0; }
+.portal-preview { padding: 22px; background: #fff; border: 1px solid #e6ebf2; border-radius: 10px; box-shadow: 0 4px 16px rgba(15,35,68,.06); }
+.portal-preview h3 { margin: 12px 0 8px; }
+.detail-list { margin-top: 16px; }
+@media (max-width: 1000px) {
+  .product-publish-page > .ant-row .ant-col { flex: 0 0 50%; max-width: 50%; margin-bottom: 12px; }
+  .wizard-content { padding: 14px; }
+  .wizard-content .ant-col { max-width: 100%; flex: 0 0 100%; }
+}

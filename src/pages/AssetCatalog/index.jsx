@@ -8,7 +8,7 @@ import AssetTable from './components/AssetTable'
 import CatalogMoveModal from './components/CatalogMoveModal'
 import CatalogTree from './components/CatalogTree'
 import { ASSET_STATUS, canAssetAction, catalogMap, getCatalogPath, initialAssets } from '../../mock/assetCatalog'
-import { getSubmittedAssets } from '../../utils/catalogSession'
+import { getAssetStatusOverrides, getSubmittedAssets } from '../../utils/catalogSession'
 import './assetCatalog.css'
 
 const enrich = (asset) => ({ ...asset, catalogName: getCatalogPath(asset.catalogKey) })
@@ -20,7 +20,8 @@ function AssetCatalog() {
   const { message, modal } = App.useApp()
   const modalContextHolder = null
   const [assets,setAssets] = useState(() => {
-    const merged = new Map(initialAssets.map((asset) => [asset.id, enrich(asset)]))
+    const statusOverrides = getAssetStatusOverrides()
+    const merged = new Map(initialAssets.map((asset) => [asset.id, enrich({ ...asset, status: statusOverrides.get(asset.id) || asset.status })]))
     getSubmittedAssets().forEach((asset) => merged.set(asset.id, enrich(asset)))
     return Array.from(merged.values())
   })
