@@ -1,6 +1,9 @@
 import { useMemo, useRef, useState } from 'react'
 import { Empty, Typography, message } from 'antd'
+import { useNavigate } from 'react-router-dom'
 import { portalProducts } from '../../mock/portalData'
+import { createApplicationRecord } from '../../mock/application'
+import { addSessionApplication } from '../../utils/applicationSession'
 import CategoryNavigation from './components/CategoryNavigation'
 import DataApplicationModal from './components/DataApplicationModal'
 import DataProductCard from './components/DataProductCard'
@@ -35,16 +38,17 @@ const buildSearchText = (product) =>
     .toLocaleLowerCase('zh-CN')
 
 function DataPortal() {
+  const navigate = useNavigate()
   const [messageApi, contextHolder] = message.useMessage()
   const [searchValue, setSearchValue] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [filters, setFilters] = useState(initialFilters)
   const [favoriteIds, setFavoriteIds] = useState(() => new Set())
-  const [appliedIds, setAppliedIds] = useState(() => new Set())
+  const [applicationsByProduct, setApplicationsByProduct] = useState(() => new Map())
   const [applicationIncrements, setApplicationIncrements] = useState({})
   const [selectedProductId, setSelectedProductId] = useState(null)
   const [applicationProductId, setApplicationProductId] = useState(null)
-  const applicationSequence = useRef(1)
+  const applicationSequence = useRef(901)
 
   const productsWithStatus = useMemo(
     () =>
@@ -139,10 +143,31 @@ function DataPortal() {
     messageApi.success(willFavorite ? '已收藏该数据产品' : '已取消收藏')
   }
 
-  const handleApplicationSubmit = (product) => {
+  const viewApplication = (product) => {
+    const application = applicationsByProduct.get(product.id)
+    if (!application) return
+    navigate(`/workbench?tab=applications&applicationId=${application.id}&productCode=${product.code}`)
+  }
+
+  const openApplication = (product) => {
+    if (applicationsByProduct.has(product.id)) {
+      viewApplication(product)
+      return
+    }
+    setApplicationProductId(product.id)
+  }
+
+  const handleApplicationSubmit = (product, values) => {
     const applicationNumber = `DA-202607-${String(applicationSequence.current).padStart(3, '0')}`
     applicationSequence.current += 1
-    setAppliedIds((current) => new Set(current).add(product.id))
+    const application = createApplicationRecord({
+      id: applicationNumber,
+      product,
+      values,
+      submittedAt: new Date().toLocaleString('zh-CN', { hour12: false }),
+    })
+    setApplicationsByProduct((current) => new Map(current).set(product.id, application))
+    addSessionApplication(application)
     setApplicationIncrements((current) => ({
       ...current,
       [product.id]: (current[product.id] || 0) + 1,
@@ -182,9 +207,11 @@ function DataPortal() {
                 key={product.id}
                 product={product}
                 favorite={favoriteIds.has(product.id)}
-                applied={appliedIds.has(product.id)}
+                applied={applicationsByProduct.has(product.id)}
                 onFavorite={handleFavorite}
                 onViewDetail={(item) => setSelectedProductId(item.id)}
+                onApply={openApplication}
+                onViewApplication={viewApplication}
               />
             ))}
           </div>
@@ -199,9 +226,11 @@ function DataPortal() {
         product={selectedProduct}
         open={Boolean(selectedProduct)}
         favorite={selectedProduct ? favoriteIds.has(selectedProduct.id) : false}
+        applied={selectedProduct ? applicationsByProduct.has(selectedProduct.id) : false}
         onClose={() => setSelectedProductId(null)}
         onFavorite={handleFavorite}
-        onApply={(product) => setApplicationProductId(product.id)}
+        onApply={openApplication}
+        onViewApplication={viewApplication}
       />
       <DataApplicationModal
         product={applicationProduct}

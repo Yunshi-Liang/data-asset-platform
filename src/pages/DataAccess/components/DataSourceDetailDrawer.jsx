@@ -20,7 +20,7 @@ function DataSourceDetailDrawer({ source, open, onClose }) {
     { key: 'connection', label: '连接与同步', children: <><Descriptions bordered column={2} items={connectionItems} /><Descriptions className="detail-block" bordered column={2} items={syncItems} /></> },
     { key: 'records', label: '执行记录', children: <Timeline items={[{ color: source.status === 'error' ? 'red' : 'green', children: `${source.lastSync} 最近一次同步${source.status === 'error' ? '失败' : '完成'}` }, { color: 'green', children: '2026-07-14 02:06 定时任务执行成功' }, { color: 'blue', children: '2026-07-13 15:20 配置由数据管理员更新' }]} /> },
     { key: 'schema', label: '结构概览', children: <Table size="small" pagination={false} columns={[{ title: '对象名称', dataIndex: 'object' }, { title: '类型', dataIndex: 'type' }, { title: '字段数', dataIndex: 'fields' }, { title: '数据量', dataIndex: 'volume' }]} dataSource={[{ key: 1, object: source.schema, type: source.type, fields: source.fields, volume: source.records }]} /> },
-    { key: 'error', label: '异常信息', children: source.error ? <Alert type="error" showIcon message="数据源运行异常" description={source.error} /> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="当前无异常信息" /> },
+    { key: 'error', label: '异常信息', children: source.error ? <Alert type="error" showIcon title="数据源运行异常" description={source.error} /> : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="当前无异常信息" /> },
   ]
   return <Drawer title="数据源详情" size="large" open={open} onClose={onClose} destroyOnHidden><Tabs items={items} /></Drawer>
 }

@@ -14,7 +14,7 @@ const securityColors = {
   重要数据: 'orange',
 }
 
-function DataProductCard({ product, favorite, applied, onFavorite, onViewDetail }) {
+function DataProductCard({ product, favorite, applied, onFavorite, onViewDetail, onApply, onViewApplication }) {
   return (
     <Card className="data-product-card">
       <div className="product-card-topline">
@@ -62,6 +62,9 @@ function DataProductCard({ product, favorite, applied, onFavorite, onViewDetail 
           <Text>申请 {product.applications.toLocaleString()} 次</Text>
         </Space>
         <Space size={6}>
+          <Button type={applied ? 'default' : 'primary'} onClick={() => applied ? onViewApplication(product) : onApply(product)}>
+            {applied ? '查看申请' : '申请使用'}
+          </Button>
           <Button
             type="text"
             className={favorite ? 'favorite-button is-favorite' : 'favorite-button'}

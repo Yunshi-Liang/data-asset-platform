@@ -6,7 +6,7 @@ import {
   ProductOutlined,
   SafetyCertificateOutlined,
 } from '@ant-design/icons'
-import { Card, Statistic, Typography } from 'antd'
+import { Statistic, Typography } from 'antd'
 import { statistics } from '../../../mock/dashboard'
 
 const { Text } = Typography
@@ -27,7 +27,7 @@ function StatisticsCards() {
         const Icon = statisticIcons[item.icon]
 
         return (
-          <Card key={item.key} className="statistic-card">
+          <div key={item.key} className="statistic-card">
             <div className="statistic-topline">
               <span
                 className="statistic-icon"
@@ -39,7 +39,7 @@ function StatisticsCards() {
             </div>
             <Statistic value={item.value} suffix={item.suffix} groupSeparator="," />
             <Text className="statistic-description">{item.description}</Text>
-          </Card>
+          </div>
         )
       })}
     </section>
