@@ -262,18 +262,6 @@
   gap: 18px 28px;
 }
 
-.construction-flow-grid::after {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 1;
-  color: #91a5c1;
-  font-size: 18px;
-  line-height: 1;
-  content: '↓';
-  transform: translate(-50%, -50%);
-}
-
 .construction-flow-step {
   position: relative;
   display: grid;
@@ -289,6 +277,15 @@
   cursor: pointer;
   text-align: left;
 }
+
+.construction-flow-step:nth-child(1) { border-color: #d9e9fb; background: #f7fbff; }
+.construction-flow-step:nth-child(2) { border-color: #c8def7; background: #f1f7ff; }
+.construction-flow-step:nth-child(3) { border-color: #b4d2f3; background: #eaf3ff; }
+.construction-flow-step:nth-child(4) { border-color: #91caff; background: #e2efff; }
+.construction-flow-step:nth-child(1) .flow-step-number { background: #8bbcf1; }
+.construction-flow-step:nth-child(2) .flow-step-number { background: #5d9fe8; }
+.construction-flow-step:nth-child(3) .flow-step-number { background: #3487df; }
+.construction-flow-step:nth-child(4) .flow-step-number { background: #1677ff; }
 
 .construction-flow-step:hover {
   border-color: #91caff;

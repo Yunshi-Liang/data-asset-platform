@@ -7,10 +7,14 @@
 .catalog-tree-panel .ant-tree { max-height:56vh; overflow:auto; }
 .catalog-popover .ant-popover-inner { padding:10px; box-shadow:0 12px 32px rgb(15 35 68 / 18%); }
 .asset-list-card { min-width:0; }
-.asset-filters { margin-bottom:16px; }
-.asset-filters .ant-input-affix-wrapper { width:300px; }
-.asset-filters .ant-select { width:132px; }
-.asset-filters > .ant-input { width:130px; }
+.asset-filters { display:flex; margin-bottom:16px; gap:8px; }
+.asset-filters .ant-input-affix-wrapper { width:210px; }
+.asset-filters .ant-select { width:108px; }
+.asset-filters > .ant-input { width:92px; }
+
+@media (min-width: 1360px) {
+  .asset-filters { flex-wrap:nowrap; }
+}
 .table-name { height:auto; padding:0; text-align:left; white-space:normal; }
 .profile-heading { padding:2px 0 14px; }
 .profile-heading h4 { margin:0; }

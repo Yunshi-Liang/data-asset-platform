@@ -105,28 +105,19 @@ select {
   padding-inline: 19px;
 }
 
-.construction-menu::before {
-  position: absolute;
-  z-index: 0;
-  top: 27px;
-  bottom: 27px;
-  left: 31px;
-  width: 1px;
-  background: rgba(145, 202, 255, 0.36);
-  content: '';
-  pointer-events: none;
-}
-
-.construction-menu.is-collapsed::before {
-  left: 36px;
-}
-
-.construction-menu .ant-menu-item-icon {
+.construction-menu .ant-menu-title-content {
   position: relative;
-  z-index: 1;
-  border-radius: 4px;
-  background: #0b2347;
-  box-shadow: 0 0 0 4px #0b2347;
+}
+
+.construction-menu:not(.is-collapsed) .ant-menu-item:not(:last-child) .ant-menu-title-content::after {
+  position: absolute;
+  bottom: -17px;
+  left: -26px;
+  color: rgba(145, 202, 255, 0.62);
+  font-size: 12px;
+  line-height: 1;
+  content: '↓';
+  pointer-events: none;
 }
 
 .app-sider .ant-layout-sider-children {
@@ -185,15 +176,6 @@ select {
 }
 
 .sider-collapse-button {
-  color: #9fb0c8;
-}
-
-.sider-collapse-button:hover {
-  color: #1677ff !important;
-  background: #f0f7ff !important;
-}
-
-.sider-collapse-button {
   position: absolute;
   z-index: 30;
   top: 50%;
@@ -201,16 +183,41 @@ select {
   display: flex;
   width: 28px;
   height: 44px;
-  border: 1px solid #d8e2ef;
-  border-radius: 0 8px 8px 0;
+  border: 0;
   align-items: center;
   justify-content: center;
   padding: 0;
-  color: #64748b;
-  background: #fff;
-  box-shadow: 3px 0 9px rgb(15 35 68 / 10%);
+  color: #78aef0;
+  background: transparent;
+  box-shadow: none;
+  font-size: 18px;
+  font-weight: 700;
+  text-shadow: 0 0 5px rgb(22 119 255 / 38%);
   transform: translateY(-50%);
 }
+
+.sider-collapse-button:hover,
+.sider-collapse-button:focus-visible {
+  color: #1677ff !important;
+  background: transparent !important;
+  text-shadow: 0 0 7px rgb(22 119 255 / 58%);
+}
+
+.section-table-card,
+.access-table-card,
+.governance-task-card,
+.asset-list-card { margin-top: 0; }
+.section-table-card > .ant-card-head,
+.access-table-card > .ant-card-head,
+.governance-task-card > .ant-card-head,
+.asset-list-card > .ant-card-head { min-height: 64px; padding-block: 9px 7px; }
+.section-table-card > .ant-card-body,
+.access-table-card > .ant-card-body,
+.governance-task-card > .ant-card-body,
+.asset-list-card > .ant-card-body { padding-top: 18px; }
+.table-icon-actions { display: inline-flex; align-items: center; gap: 4px; }
+.table-icon-button-wrap { display: inline-flex; }
+.table-icon-button { width: 28px; min-width: 28px; height: 28px; padding: 0; }
 
 .ant-layout-sider-collapsed .sider-footer {
   padding-inline: 10px;
