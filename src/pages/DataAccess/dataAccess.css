@@ -17,6 +17,13 @@
 .source-name-button { display: flex; flex-direction: column; gap: 2px; padding: 0; color: #1677ff; text-align: left; background: none; border: 0; cursor: pointer; }.source-name-button .ant-typography { font-size: 11px; }
 .detail-block { margin-top: 18px; }.full-width { width: 100%; }
 .drawer-footer { display: flex; justify-content: space-between; }.access-step-content { margin-top: 24px; }.access-form > .ant-alert { margin-bottom: 20px; }.connection-result { margin-top: 8px; }
+.selected-source-summary { margin-bottom: 18px; }
+.edit-source-form { margin-top: 18px; }
+.edit-automation-options { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; padding: 14px 16px 0; background: #f7f9fc; border-radius: 8px; }
+.edit-automation-options .ant-form-item { margin-bottom: 14px; }
+.task-detail-title { margin-top: 24px !important; }
+.task-log-panel { display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; color: #344054; font-family: Consolas, monospace; font-size: 12px; background: #f7f9fc; border-radius: 8px; }
+.task-failure-alert, .task-retry-action { margin-top: 18px; }
 .preview-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0; }.preview-metrics .ant-card-body { display: flex; flex-direction: column; gap: 6px; }.preview-metrics strong { font-size: 20px; color: #1d2939; }.recognized-tags { margin-top: 16px; }
 .automation-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 14px 16px 0; background: #f7f9fc; border-radius: 8px; }.automation-options .ant-form-item { margin-bottom: 14px; }
 .execution-panel { max-width: 620px; margin: 46px auto 0; text-align: center; }.execution-panel h4 { margin: 16px 0 4px; }.execution-panel .ant-progress { margin: 24px 0; }.execution-panel .ant-steps { max-width: 360px; margin: 0 auto; text-align: left; }

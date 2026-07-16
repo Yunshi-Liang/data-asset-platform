@@ -47,7 +47,7 @@ function QualityContent({ product }) {
   )
 }
 
-function ProductDetailDrawer({ product, open, favorite, onClose, onFavorite, onApply }) {
+function ProductDetailDrawer({ product, open, favorite, applied, onClose, onFavorite, onApply, onViewApplication }) {
   if (!product) return null
 
   const basicItems = [
@@ -59,7 +59,7 @@ function ProductDetailDrawer({ product, open, favorite, onClose, onFavorite, onA
     ['数据格式', product.format],
     ['数据规模', product.size],
     ['更新频率', product.updateFrequency],
-    ['发布时间', product.publishedAt],
+    ['上架时间', product.publishedAt],
     ['责任部门', product.department],
     ['安全等级', product.securityLevel],
     ['使用方式', product.accessMethod],
@@ -148,8 +148,8 @@ function ProductDetailDrawer({ product, open, favorite, onClose, onFavorite, onA
           >
             {favorite ? '取消收藏' : '收藏产品'}
           </Button>
-          <Button type="primary" icon={<FileAddOutlined />} onClick={() => onApply(product)}>
-            申请使用
+          <Button type="primary" icon={<FileAddOutlined />} onClick={() => applied ? onViewApplication(product) : onApply(product)}>
+            {applied ? '查看申请' : '申请使用'}
           </Button>
         </div>
       }

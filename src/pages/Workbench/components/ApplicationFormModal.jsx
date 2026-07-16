@@ -1,9 +1,1 @@
-import { useEffect } from 'react'
-import { Checkbox, Col, DatePicker, Form, Input, Modal, Row, Select } from 'antd'
-const methods=['文件下载','在线查看','API 调用','数据推送'].map(value=>({label:value,value}))
-function ApplicationFormModal({open,product,onCancel,onSubmit}){
- const [form]=Form.useForm()
- useEffect(()=>{if(open)form.setFieldsValue({applicant:'数据管理员',department:'数据管理中心',productName:product?.name||product?.productName,confidentiality:false})},[open,product,form])
- return <Modal open={open} title="数据使用申请" width={700} okText="提交申请" destroyOnHidden onCancel={onCancel} onOk={()=>form.submit()}><Form form={form} layout="vertical" preserve={false} onFinish={onSubmit}><Row gutter={16}><Col span={12}><Form.Item name="applicant" label="申请人"><Input disabled/></Form.Item></Col><Col span={12}><Form.Item name="department" label="所属部门" rules={[{required:true}]}><Input/></Form.Item></Col><Col span={12}><Form.Item name="project" label="使用项目" rules={[{required:true,message:'请输入使用项目'}]}><Input/></Form.Item></Col><Col span={12}><Form.Item name="productName" label="数据产品" rules={[{required:true}]}><Input disabled/></Form.Item></Col><Col span={24}><Form.Item name="purpose" label="使用目的" rules={[{required:true,message:'请输入使用目的'},{min:8,message:'请至少输入8个字符'}]}><Input.TextArea rows={3}/></Form.Item></Col><Col span={8}><Form.Item name="method" label="申请方式" rules={[{required:true}]}><Select options={methods}/></Form.Item></Col><Col span={8}><Form.Item name="startDate" label="期望开始日期" rules={[{required:true}]}><DatePicker style={{width:'100%'}}/></Form.Item></Col><Col span={8}><Form.Item name="endDate" label="期望结束日期" rules={[{required:true}]}><DatePicker style={{width:'100%'}}/></Form.Item></Col><Col span={24}><Form.Item name="scope" label="数据使用范围" rules={[{required:true}]}><Input placeholder="说明使用部门、项目和数据范围"/></Form.Item></Col></Row><Form.Item name="confidentiality" valuePropName="checked" rules={[{validator:(_,v)=>v?Promise.resolve():Promise.reject(new Error('请勾选保密承诺'))}]}><Checkbox>我承诺遵守数据安全、保密和最小化使用要求</Checkbox></Form.Item></Form></Modal>
-}
-export default ApplicationFormModal
+export { default } from '../../../components/DataApplicationModal'

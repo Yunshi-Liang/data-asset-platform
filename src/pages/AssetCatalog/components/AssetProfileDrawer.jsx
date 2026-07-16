@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react'
-import { Alert, Button, Card, Col, Descriptions, Divider, Drawer, Form, Input, List, Progress, Row, Select, Space, Statistic, Steps, Table, Tabs, Tag, Typography, message } from 'antd'
-import { EditOutlined, HeartFilled, HeartOutlined, RocketOutlined } from '@ant-design/icons'
-import { gisMetadata, lineageStages, qualityDimensions, qualityIssues, securityLevels } from '../../../mock/assetCatalog'
+import { Alert, App, Button, Card, Col, Descriptions, Divider, Drawer, Form, Input, List, Progress, Row, Select, Space, Statistic, Table, Tabs, Tag, Typography } from 'antd'
+import { EditOutlined, RocketOutlined } from '@ant-design/icons'
+import { canAssetAction, gisMetadata, qualityDimensions, qualityIssues, securityLevels } from '../../../mock/assetCatalog'
 
 const scoreColor = (score) => score >= 90 ? '#1677ff' : score >= 80 ? '#faad14' : '#ff4d4f'
 
-function BasicPanel({ asset, editing, onSave }) {
+function BasicPanel({ asset, editing, onSave, onCancel, onDraftChange }) {
   const [form] = Form.useForm()
   useEffect(() => form.setFieldsValue(asset), [asset, form])
-  if (editing) return <Form form={form} layout="vertical" onFinish={onSave}><Row gutter={16}>
+  if (editing) return <Form form={form} layout="vertical" onFinish={onSave} onValuesChange={(_, values)=>onDraftChange({...asset,...values})}><Row gutter={16}>
     <Col span={12}><Form.Item name="name" label="资产名称" rules={[{required:true}]}><Input /></Form.Item></Col>
     <Col span={12}><Form.Item name="department" label="责任部门"><Input /></Form.Item></Col>
     <Col span={12}><Form.Item name="owner" label="数据负责人"><Input /></Form.Item></Col>
     <Col span={12}><Form.Item name="frequency" label="更新频率"><Select options={['实时','每日','每周','每月','按项目'].map(v=>({label:v,value:v}))} /></Form.Item></Col>
     <Col span={24}><Form.Item name="description" label="资产描述"><Input.TextArea rows={3} /></Form.Item></Col>
     <Col span={24}><Form.Item name="scenarios" label="使用场景"><Input.TextArea rows={2} /></Form.Item></Col>
-  </Row><Button type="primary" htmlType="submit">保存画像</Button></Form>
+  </Row><Space><Button onClick={onCancel}>取消</Button><Button type="primary" htmlType="submit">保存详情</Button></Space></Form>
   const items = [
     ['资产名称',asset.name],['资产编码',asset.code],['业务名称',asset.name],['资产描述',asset.description],['所属业务领域',asset.domain],['所属目录路径',asset.catalogName],
     ['来源系统',asset.sourceSystem],['来源数据源',asset.source],['数据形态',asset.dataType],['数据格式',asset.dataType==='GIS 数据'?'GDB / SHP':'CSV / JSON'],['数据规模',asset.size],['记录数量',asset.records],
@@ -39,22 +39,24 @@ function QualityPanel({ asset }) {
 function LineagePanel({ asset }) {
   const labels=['来源系统','接入任务','治理任务','当前数据资产','关联数据产品']
   const values=[asset.sourceSystem, `${asset.source}接入任务`, `${asset.name.replace('数据集','')}治理`, asset.name, asset.usage.products?`${asset.name}服务产品`:'暂未关联产品']
-  return <><Alert showIcon type="info" message="资产血缘覆盖来源、接入、治理、资产和产品服务链路" /><Steps className="lineage-steps" responsive={false} items={lineageStages.map((_,i)=>({title:labels[i],content:values[i],status:i===4&&!asset.usage.products?'wait':'finish'}))} /><List bordered dataSource={values} renderItem={(name,i)=><List.Item><List.Item.Meta title={`${labels[i]}：${name}`} description={`处理时间：2026-07-${11+i} 09:30　负责人：${i<2?'系统调度':asset.owner}　状态：${i===4&&!asset.usage.products?'待关联':'已完成'}`} /></List.Item>} /></>
+  const linked = values.map((_, index) => index < 4 || Boolean(asset.usage.products))
+  return <><Alert showIcon type="info" message="资产血缘覆盖来源、接入、治理、资产和产品服务链路" /><div className="lineage-legend"><span><i className="linked" />已关联</span><span><i className="unlinked" />未关联</span></div><div className="lineage-flow">{values.map((name,index)=><div className={`lineage-node ${linked[index]?'is-linked':'is-unlinked'}`} key={labels[index]}><span className="lineage-node-type">{labels[index]}</span><strong>{name}</strong><small>{linked[index]?'已关联':'未关联'}</small></div>)}</div><List bordered dataSource={values} renderItem={(name,i)=><List.Item><List.Item.Meta title={`${labels[i]}：${name}`} description={`处理时间：${linked[i]?`2026-07-${11+i} 09:30`:'—'}　负责人：${i<2?'系统调度':asset.owner}　状态：${linked[i]?'已关联':'未关联'}`} /></List.Item>} /></>
 }
 
-function TagPanel({ asset, onChange }) {
+function TagPanel({ asset, editing, onChange }) {
+  const { message } = App.useApp()
   const [newTag,setNewTag]=useState('')
   const add=()=>{if(newTag&&!asset.tags.includes(newTag)){onChange({...asset,tags:[...asset.tags,newTag]});setNewTag('');message.success('标签已添加')}}
   return <Space orientation="vertical" size="large" style={{width:'100%'}}>
     <Descriptions bordered size="small" column={2} items={[{key:1,label:'一级业务域',children:asset.domain},{key:2,label:'目录分类',children:asset.catalogName},{key:3,label:'数据形态',children:asset.dataType},{key:4,label:'生命周期阶段',children:asset.lifecycle}]} />
     <div><Typography.Text strong>系统标签</Typography.Text><div className="tag-row"><Tag color="blue">{asset.domain}</Tag><Tag color="blue">{asset.dataType}</Tag><Tag color="blue">{asset.region}</Tag></div></div>
-    <div><Typography.Text strong>人工标签</Typography.Text><div className="tag-row">{asset.tags.map(tag=><Tag key={tag} closable onClose={(e)=>{e.preventDefault();onChange({...asset,tags:asset.tags.filter(v=>v!==tag)})}}>{tag}</Tag>)}</div><Space.Compact><Input value={newTag} placeholder="输入新标签" onChange={e=>setNewTag(e.target.value)} onPressEnter={add}/><Button onClick={add}>添加</Button></Space.Compact></div>
-    <div><Typography.Text strong>安全等级</Typography.Text><br/><Select style={{width:180,marginTop:8}} value={asset.securityLevel} options={securityLevels.map(v=>({label:v,value:v}))} onChange={securityLevel=>onChange({...asset,securityLevel})} />{asset.securityLevel==='核心数据'&&<Alert className="profile-section" type="error" showIcon message="核心数据不得直接面向门户公开上架，使用与流转需经过专项审批。" />}</div>
+    <div><Typography.Text strong>人工标签</Typography.Text><div className="tag-row">{asset.tags.map(tag=><Tag key={tag} closable={editing} onClose={(e)=>{e.preventDefault();onChange({...asset,tags:asset.tags.filter(v=>v!==tag)})}}>{tag}</Tag>)}{editing&&<Space.Compact className="tag-add-control"><Input value={newTag} placeholder="输入新标签" onChange={e=>setNewTag(e.target.value)} onPressEnter={add}/><Button onClick={add}>添加</Button></Space.Compact>}</div></div>
+    <div><Typography.Text strong>安全等级</Typography.Text><br/><Select disabled={!editing} style={{width:180,marginTop:8}} value={asset.securityLevel} options={securityLevels.map(v=>({label:v,value:v}))} onChange={securityLevel=>onChange({...asset,securityLevel})} />{asset.securityLevel==='核心数据'&&<Alert className="profile-section" type="error" showIcon message="核心数据不得直接面向门户公开上架，使用与流转需经过专项审批。" />}</div>
   </Space>
 }
 
 function ValuePanel({ asset }) {
-  const healthItems=[['数据质量',asset.qualityScore],['更新及时性',asset.health],['元数据完整度',asset.metadataComplete?96:68],['血缘完整度',92],['安全合规度',95],['服务可用性',asset.status==='已停用'?45:94]]
+  const healthItems=[['数据质量',asset.qualityScore],['更新及时性',asset.health],['元数据完整度',asset.metadataComplete?96:68],['血缘完整度',92],['安全合规度',95],['服务可用性',asset.status==='待启用'?45:94]]
   return <><Alert showIcon message="健康度与价值评分为基于质量、使用、更新和业务重要性等指标生成的模拟结果。" /><Row gutter={24} className="profile-section"><Col span={8}><Card className="score-card"><Progress type="dashboard" percent={asset.health} strokeColor={scoreColor(asset.health)} /><Typography.Title level={4}>资产健康度</Typography.Title></Card></Col><Col span={16}><Row gutter={[12,12]}>{healthItems.map(([name,value])=><Col span={12} key={name}><span>{name}</span><Progress percent={value} size="small" /></Col>)}</Row></Col></Row><Divider />
     <Row gutter={16}><Col span={6}><Statistic title="价值等级" value={asset.valueLevel} /></Col><Col span={6}><Statistic title="项目复用次数" value={asset.usage.applications} /></Col><Col span={6}><Statistic title="关联产品数" value={asset.usage.products} /></Col><Col span={6}><Statistic title="节约成本估算" value={128+asset.usage.products*46} suffix="万元" /></Col></Row></>
 }
@@ -64,20 +66,23 @@ function UsagePanel({ asset }) {
   return <><Row gutter={[12,12]}>{stats.map(([title,value])=><Col span={8} key={title}><Card><Statistic title={title} value={value} /></Card></Col>)}</Row><Descriptions className="profile-section" bordered size="small" items={[{key:1,label:'最近使用时间',children:'2026-07-15 10:26'},{key:2,label:'关联项目',children:'粤东500kV输变电工程等 18 个项目'},{key:3,label:'常用部门',children:'输电工程设计中心、勘测工程中心'}]} /><Typography.Title level={5}>最近访问记录</Typography.Title><List bordered dataSource={['广州设计一部 · 在线查看','输电工程中心 · 数据申请','勘测工程中心 · 文件下载']} renderItem={(item,i)=><List.Item extra={`2026-07-${15-i} 10:2${i}`}>{item}</List.Item>} /></>
 }
 
-function AssetProfileDrawer({ open, asset, editRequest, onClose, onUpdate, onMove, onPublish, onToggle }) {
+function AssetProfileDrawer({ open, asset, onClose, onUpdate, onMove, onPublish, onToggle, onCancelPublish, onRollback }) {
+  const { message } = App.useApp()
   const [editing,setEditing]=useState(false)
-  useEffect(()=>setEditing(false),[asset?.id])
-  useEffect(()=>{ if (editRequest) setEditing(true) },[editRequest])
+  const [editAsset,setEditAsset]=useState(null)
+  useEffect(()=>{setEditing(false);setEditAsset(asset)},[asset])
   if(!asset) return null
-  const summary=[['质量评分',asset.qualityScore],['健康度',asset.health],['价值等级',asset.valueLevel],['使用次数',asset.usage.views],['关联产品',asset.usage.products],['未解决问题',asset.unresolvedIssues]]
+  const viewAsset=editing&&editAsset?editAsset:asset
+  const summary=[['质量评分',viewAsset.qualityScore],['健康度',viewAsset.health],['价值等级',viewAsset.valueLevel],['使用次数',viewAsset.usage.views],['关联产品',viewAsset.usage.products],['未解决问题',viewAsset.unresolvedIssues]]
   const tabs=[
-    {key:'basic',label:'基本信息',children:<BasicPanel asset={asset} editing={editing} onSave={(values)=>{onUpdate({...asset,...values});setEditing(false);message.success('资产画像已更新')}} />},
-    {key:'metadata',label:'元数据',children:<MetadataPanel asset={asset} />},{key:'quality',label:'数据质量',children:<QualityPanel asset={asset} />},
-    {key:'lineage',label:'数据血缘',children:<LineagePanel asset={asset} />},{key:'tags',label:'分类标签',children:<TagPanel asset={asset} onChange={onUpdate} />},
-    {key:'value',label:'价值与健康度',children:<ValuePanel asset={asset} />},{key:'usage',label:'使用与运营',children:<UsagePanel asset={asset} />},
+    {key:'basic',label:'基本信息',children:<BasicPanel asset={viewAsset} editing={editing} onDraftChange={setEditAsset} onCancel={()=>{setEditAsset(asset);setEditing(false)}} onSave={(values)=>{onUpdate({...viewAsset,...values});setEditing(false);message.success('资产详情已更新')}} />},
+    {key:'metadata',label:'元数据',children:<MetadataPanel asset={viewAsset} />},{key:'quality',label:'数据质量',children:<QualityPanel asset={viewAsset} />},
+    {key:'lineage',label:'数据血缘',children:<LineagePanel asset={viewAsset} />},{key:'tags',label:'分类标签',children:<TagPanel asset={viewAsset} editing={editing} onChange={setEditAsset} />},
+    {key:'value',label:'价值与健康度',children:<ValuePanel asset={viewAsset} />},{key:'usage',label:'使用与运营',children:<UsagePanel asset={viewAsset} />},
   ]
-  return <Drawer open={open} onClose={onClose} width="min(1120px, 94vw)" title="数据资产画像" extra={<Space><Button icon={asset.favorite?<HeartFilled />:<HeartOutlined />} onClick={()=>{onUpdate({...asset,favorite:!asset.favorite});message.success(asset.favorite?'已取消收藏':'已收藏')}}>{asset.favorite?'已收藏':'收藏'}</Button><Button icon={<EditOutlined />} onClick={()=>setEditing(true)}>编辑画像</Button><Button onClick={()=>onMove(asset)}>调整目录</Button><Button onClick={()=>onToggle(asset)}>{asset.status==='已停用'?'启用':'停用'}</Button><Button type="primary" icon={<RocketOutlined />} onClick={()=>onPublish(asset)}>申请上架</Button></Space>}>
-    <div className="profile-heading"><div><Space wrap><Typography.Title level={4}>{asset.name}</Typography.Title><Tag color="blue">{asset.status}</Tag><Tag color={asset.securityLevel==='核心数据'?'red':'orange'}>{asset.securityLevel}</Tag></Space><Typography.Text type="secondary">{asset.code}　·　{asset.catalogName}　·　{asset.region}　·　负责人 {asset.owner}</Typography.Text><div className="tag-row">{asset.tags.map(tag=><Tag key={tag}>{tag}</Tag>)}</div></div></div>
+  const closeDrawer=()=>{setEditing(false);onClose()}
+  return <Drawer open={open} onClose={closeDrawer} width="min(1120px, 94vw)" title="数据资产详情" extra={<Space>{editing&&<><Button onClick={()=>{setEditAsset(asset);setEditing(false)}}>取消编辑</Button><Button type="primary" onClick={()=>{onUpdate(editAsset);setEditing(false);message.success('资产详情已更新')}}>保存修改</Button></>}{canAssetAction(asset.status,'edit')&&!editing&&<Button icon={<EditOutlined />} onClick={()=>{setEditAsset(asset);setEditing(true)}}>编辑</Button>}{canAssetAction(asset.status,'edit')&&!editing&&<Button onClick={()=>onMove(asset)}>调整目录</Button>}{canAssetAction(asset.status,'enable')&&!editing&&<Button onClick={()=>onToggle(asset)}>启用</Button>}{canAssetAction(asset.status,'disable')&&<Button danger onClick={()=>onToggle(asset)}>停用</Button>}{canAssetAction(asset.status,'publish')&&<Button type="primary" icon={<RocketOutlined />} onClick={()=>onPublish(asset)}>申请上架</Button>}{canAssetAction(asset.status,'cancelPublish')&&<Button danger onClick={()=>onCancelPublish(asset)}>取消申请上架</Button>}{canAssetAction(asset.status,'rollback')&&<Button danger onClick={()=>onRollback(asset)}>回退数据治理</Button>}</Space>}>
+    <div className="profile-heading"><div><Space wrap><Typography.Title level={4}>{viewAsset.name}</Typography.Title><Tag color="blue">{viewAsset.status}</Tag><Tag color={viewAsset.securityLevel==='核心数据'?'red':'orange'}>{viewAsset.securityLevel}</Tag></Space><Typography.Text type="secondary">{viewAsset.code}　·　{viewAsset.catalogName}　·　{viewAsset.region}　·　负责人 {viewAsset.owner}</Typography.Text><div className="tag-row">{viewAsset.tags.map(tag=><Tag key={tag}>{tag}</Tag>)}</div></div></div>
     <Row gutter={12} className="profile-summary">{summary.map(([title,value])=><Col span={4} key={title}><Card size="small"><Statistic title={title} value={value} suffix={['质量评分','健康度'].includes(title)?'分':''} /></Card></Col>)}</Row>
     <Tabs items={tabs} destroyOnHidden={false} />
   </Drawer>

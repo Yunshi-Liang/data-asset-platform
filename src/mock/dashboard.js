@@ -21,7 +21,7 @@ export const statistics = [
     key: 'dataProducts',
     title: '数据产品',
     value: 168,
-    description: '已发布产品',
+    description: '已上架产品',
     icon: 'product',
     color: '#08979c',
     background: '#e6fffb',
@@ -107,7 +107,7 @@ export const latestNews = [
   {
     key: 'news-3',
     date: '昨天',
-    title: '发布广西沿海风资源数据产品',
+    title: '上架广西沿海风资源数据产品',
     description: '北部湾区域风资源评估产品正式上架',
     color: '#52c41a',
   },
@@ -176,5 +176,11 @@ export const quickActions = [
     title: '数据产品上架',
     path: '/product-publish',
     icon: 'product',
+  },
+  {
+    key: 'workbench',
+    title: '个人工作台',
+    path: '/workbench',
+    icon: 'workbench',
   },
 ]
