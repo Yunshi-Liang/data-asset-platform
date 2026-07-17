@@ -94,7 +94,7 @@ function DataAccess() {
     setRetryingIds((current) => new Set(current).add(task.id))
     const runningTask = { ...task, status: 'running', endTime: '', duration: '执行中', failureReason: '', logs: [...task.logs, '10:40:00 [INFO] 人工重试已启动'] }
     setTasks((current) => current.map((item) => item.id === task.id ? runningTask : item))
-    setTaskDetail(runningTask)
+    messageApi.info(`${task.id} 已开始重新执行`)
     setTimeout(() => {
       const successTask = { ...runningTask, status: 'success', endTime: '2026-07-16 10:40:08', duration: '8秒', failedCount: 0, steps: finishedSteps, logs: [...runningTask.logs, '10:40:08 [INFO] 重试执行成功'] }
       setTasks((current) => current.map((item) => item.id === task.id ? successTask : item))
@@ -107,7 +107,7 @@ function DataAccess() {
   return (
     <div className="data-access-page">
       {contextHolder}
-      <div className="access-page-header"><div><Title level={2}>数据接入</Title><Text type="secondary">统一配置、执行和追踪华南区域多源异构数据接入任务。</Text></div><Button type="primary" size="large" icon={<PlusOutlined />} onClick={openGeneralCreate}>新建数据接入</Button></div>
+      <div className="page-header access-page-header"><div className="page-header-copy"><Title className="page-header-title" level={2}>数据接入</Title><Text className="page-header-description">统一配置、执行和追踪华南区域多源异构数据接入任务。</Text></div><Button type="primary" size="large" icon={<PlusOutlined />} onClick={openGeneralCreate}>新建数据接入</Button></div>
       <AccessOverview />
       <SourceTypeCards onSelect={openPresetCreate} />
       <Card className="access-table-card" title={<div><span>已接入数据源</span><Text type="secondary">管理长期存在的数据源连接、同步策略与运行状态</Text></div>} extra={<Text type="secondary">当前显示 {filteredSources.length} / {sources.length}</Text>}>

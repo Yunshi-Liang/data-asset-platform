@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { FolderOpenOutlined } from '@ant-design/icons'
 import { App, Button, Card, Modal, Popover, Space, Typography } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -25,18 +25,22 @@ function AssetCatalog() {
     getSubmittedAssets().forEach((asset) => merged.set(asset.id, enrich(asset)))
     return Array.from(merged.values())
   })
-  const [catalogOpen, setCatalogOpen] = useState(true)
+  const [catalogOpen, setCatalogOpen] = useState(false)
   const [selectedCatalog, setSelectedCatalog] = useState('')
   const [filters, setFilters] = useState(emptyFilters)
   const [selectedAssetId, setSelectedAssetId] = useState(null)
   const [moveAsset, setMoveAsset] = useState(null)
   const [publishResult, setPublishResult] = useState(null)
+  const handledNavigationAssetRef = useRef(null)
   const selectedAsset = assets.find((item) => item.id === selectedAssetId)
 
   useEffect(() => {
     const assetId = new URLSearchParams(location.search).get('assetId')
-    if (assetId && assets.some((asset) => asset.id === assetId)) setSelectedAssetId(assetId)
-  }, [assets, location.search])
+    if (!assetId || handledNavigationAssetRef.current === assetId || !assets.some((asset) => asset.id === assetId)) return
+    handledNavigationAssetRef.current = assetId
+    setSelectedAssetId(assetId)
+    navigate('/asset-catalog', { replace: true })
+  }, [assets, location.search, navigate])
 
   const visibleAssets = useMemo(() => assets.filter((asset) => {
     const keyword = filters.keyword.trim().toLowerCase()
@@ -63,10 +67,11 @@ function AssetCatalog() {
   const submitPublish = () => {
     const code = `PUB-${new Date().getFullYear()}-${String(Date.now()).slice(-5)}`
     updateAsset({ ...publishResult.asset, status: ASSET_STATUS.publishApplied, publishApplicationCode: code })
+    setSelectedAssetId(null)
     setPublishResult((result) => ({ ...result, code }))
     message.success(`上架申请已提交，申请编号：${code}`)
   }
-  const cancelPublish = (asset) => modal.confirm({ title: '取消上架申请', content: `确认取消“${asset.name}”的上架申请？`, okButtonProps: { danger: true }, onOk() { updateAsset({ ...asset, status: ASSET_STATUS.pendingPublish, publishApplicationCode: '' }); message.success('上架申请已取消') } })
+  const cancelPublish = (asset) => modal.confirm({ title: '取消上架申请', content: `确认取消“${asset.name}”的上架申请？`, okButtonProps: { danger: true }, onOk() { updateAsset({ ...asset, status: ASSET_STATUS.pendingPublish, publishApplicationCode: '' }); setSelectedAssetId(null); message.success('上架申请已取消') } })
   const rollback = (asset) => modal.confirm({
     title: '退回重新治理', content: `确认将“${asset.name}”退回数据治理？`, okText: '确认退回', okButtonProps: { danger: true },
     onOk() {
@@ -80,14 +85,14 @@ function AssetCatalog() {
   const catalogPanel = <CatalogTree assets={assets} selectedKey={selectedCatalog} onSelect={selectCatalog} />
   return (
     <div className="asset-catalog-page">
-      <div className="page-title-row"><div><Typography.Title level={3}>数据资产目录</Typography.Title><Typography.Text type="secondary">统一组织治理成果，形成可检索、可评价、可运营的数据资产详情。</Typography.Text></div></div>
+      <div className="page-header page-title-row"><div className="page-header-copy"><Typography.Title className="page-header-title" level={3}>数据资产目录</Typography.Title><Typography.Text className="page-header-description">统一组织治理成果，形成可检索、可评价、可运营的数据资产详情。</Typography.Text></div></div>
       <Card className="asset-list-card" title={<div className="asset-list-heading"><Typography.Text strong>{selectedCatalog ? getCatalogPath(selectedCatalog) : '全部资产'}</Typography.Text><Typography.Text type="secondary">当前目录共 {visibleAssets.length} 条资产</Typography.Text></div>} extra={<Popover rootClassName="catalog-popover" open={catalogOpen} onOpenChange={setCatalogOpen} placement="bottomRight" trigger="click" content={catalogPanel}><Button icon={<FolderOpenOutlined />}>目录筛选</Button></Popover>}>
         <AssetFilters filters={filters} onChange={(key, value) => setFilters((previous) => ({ ...previous, [key]: value || '' }))} onReset={() => { setFilters(emptyFilters); setSelectedCatalog('') }} />
         <AssetTable data={visibleAssets} onView={(asset) => setSelectedAssetId(asset.id)} onPublish={requestPublish} onCancelPublish={cancelPublish} onRollback={rollback} />
       </Card>
       <AssetProfileDrawer open={Boolean(selectedAsset)} asset={selectedAsset} onClose={() => setSelectedAssetId(null)} onUpdate={updateAsset} onMove={setMoveAsset} onPublish={requestPublish} onCancelPublish={cancelPublish} onRollback={rollback} />
       <CatalogMoveModal open={Boolean(moveAsset)} asset={moveAsset} onCancel={() => setMoveAsset(null)} onSubmit={(catalogKey) => { updateAsset({ ...moveAsset, catalogKey }); setMoveAsset(null); message.success('资产目录已调整') }} />
-      <Modal open={Boolean(publishResult)} title="数据产品上架前检查" width={620} onCancel={() => setPublishResult(null)} footer={publishResult?.code ? <Button type="primary" onClick={() => navigate('/product-publish')}>前往数据产品上架</Button> : <Space><Button onClick={() => setPublishResult(null)}>返回</Button><Button type="primary" disabled={!publishResult?.passed} onClick={submitPublish}>确认申请上架</Button></Space>}>
+      <Modal open={Boolean(publishResult)} title="数据产品上架前检查" width={620} onCancel={() => setPublishResult(null)} footer={publishResult?.code ? <Space><Button onClick={() => { setPublishResult(null); setSelectedAssetId(null) }}>返回</Button><Button type="primary" onClick={() => navigate('/product-publish')}>前往数据产品上架</Button></Space> : <Space><Button onClick={() => setPublishResult(null)}>返回</Button><Button type="primary" disabled={!publishResult?.passed} onClick={submitPublish}>确认申请上架</Button></Space>}>
         {publishResult && <><Typography.Title level={5}>{publishResult.asset.name}</Typography.Title><div className="publish-check-list">{publishResult.checks.map((item) => <div className={item.pass ? 'check-pass' : 'check-fail'} key={item.label}><strong>{item.pass ? '✓' : '✕'} {item.label}</strong><span>{item.detail}</span></div>)}</div>{publishResult.code && <Card className="publish-success"><Typography.Title level={4}>上架申请已提交</Typography.Title><Typography.Text>申请编号：{publishResult.code}</Typography.Text></Card>}</>}
       </Modal>
     </div>

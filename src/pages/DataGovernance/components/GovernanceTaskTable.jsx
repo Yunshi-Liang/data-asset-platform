@@ -13,7 +13,7 @@ function GovernanceTaskTable({ tasks, onOpen, onSubmitCatalog }) {
     { title: '治理状态', dataIndex: 'status', width: 100, render: (value) => <Tag color={statusMeta[value][0]}>{statusMeta[value][1]}</Tag> },
     { title: '目录提交状态', dataIndex: 'catalogSubmission', width: 120, render: (value) => <Tag color={submissionMeta[value][0]}>{submissionMeta[value][1]}</Tag> },
     { title: '负责人', dataIndex: 'owner', width: 80 }, { title: '更新时间', dataIndex: 'updateTime', width: 150 },
-    { title: '操作', key: 'action', width: 150, fixed: 'right', render: (_, record) => {
+    { title: '操作', key: 'action', width: 112, fixed: 'right', render: (_, record) => {
       const editable = ['pending', 'running', 'confirming', 'failed'].includes(record.status) || record.catalogSubmission === 'returned'
       const completed = record.status === 'completed'
       const submitReady = completed && ['unsubmitted', 'failed'].includes(record.catalogSubmission)
