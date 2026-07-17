@@ -1,5 +1,5 @@
-.login-page { display:flex; min-width:1024px; min-height:100vh; align-items:center; justify-content:center; padding:40px; background:#f1f5fa; }
-.login-card { width:420px; border-color:#dfe8f3; border-radius:10px; box-shadow:0 14px 40px rgb(17 52 94 / 12%); }
+.login-page { display:flex; min-width:1024px; min-height:100vh; align-items:center; justify-content:center; padding:40px; background-color:#f1f5fa; background-position:center; background-repeat:no-repeat; background-size:cover; }
+.login-card { width:420px; border-color:rgb(223 232 243 / 88%); border-radius:10px; background:rgb(255 255 255 / 94%); box-shadow:0 14px 40px rgb(17 52 94 / 18%); backdrop-filter:blur(3px); }
 .login-card .ant-card-body { padding:36px; }
 .login-brand { display:flex; margin-bottom:30px; align-items:center; gap:14px; }
 .login-brand > span { display:inline-flex; width:46px; height:46px; align-items:center; justify-content:center; border-radius:9px; color:#fff; background:#1677ff; font-size:24px; }

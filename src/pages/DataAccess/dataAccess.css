@@ -1,5 +1,5 @@
 .data-access-page { display: flex; flex-direction: column; gap: 18px; }
-.access-page-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.access-page-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 0; }
 .access-page-header h2 { margin: 0 0 4px; font-size: 24px; }
 .access-overview .ant-col { min-width: 0; }
 .access-stat-card { height: 100%; border: 1px solid #e8edf5; box-shadow: 0 3px 12px rgba(31, 55, 88, .045); overflow: hidden; }
