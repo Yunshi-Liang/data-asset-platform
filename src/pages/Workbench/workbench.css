@@ -12,7 +12,8 @@
 .workbench-statistics > .ant-row { width:100%; height:100%; }
 .workbench-statistics .ant-col { display:flex; }
 .workbench-statistics .ant-card { width:100%; }
-.favorite-star-button { color:#d48806; }
+.favorite-star-button { color:#f5b301 !important; }
+.favorite-star-button:hover { color:#1f2937 !important; }
 .workbench-tabs { margin-top: 16px; }
 .workbench-section { margin-top: 20px; }
 .risk-check { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: #f7f9fc; border-radius: 8px; }

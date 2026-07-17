@@ -8,6 +8,8 @@ import DataPortal from '../pages/DataPortal'
 import NotFound from '../pages/NotFound'
 import ProductPublish from '../pages/ProductPublish'
 import Workbench from '../pages/Workbench'
+import Login from '../pages/Login'
+import ProtectedRoute from './ProtectedRoute'
 
 import { routeConfig } from './config'
 
@@ -29,13 +31,19 @@ const businessRoutes = routeConfig.map(({ path }, index) => {
 })
 
 const router = createBrowserRouter([
+  { path: '/login', element: <Login /> },
   {
     path: '/',
-    element: <MainLayout />,
+    element: <ProtectedRoute />,
     children: [
-      ...businessRoutes,
-      { path: 'workbench', element: <Workbench /> },
-      { path: '*', element: <NotFound /> },
+      {
+        element: <MainLayout />,
+        children: [
+          ...businessRoutes,
+          { path: 'workbench', element: <Workbench /> },
+          { path: '*', element: <NotFound /> },
+        ],
+      },
     ],
   },
 ])

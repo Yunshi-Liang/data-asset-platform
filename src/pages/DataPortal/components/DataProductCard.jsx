@@ -3,7 +3,7 @@ import {
   StarFilled,
   StarOutlined,
 } from '@ant-design/icons'
-import { Button, Card, Progress, Space, Tag, Tooltip, Typography } from 'antd'
+import { Button, Card, Progress, Space, Tag, Typography } from 'antd'
 
 const { Paragraph, Text, Title } = Typography
 
@@ -57,9 +57,9 @@ function DataProductCard({ product, favorite, applied, onFavorite, onViewDetail 
         </Space>
         <Space size={6}>
           <Button type="link" onClick={() => onViewDetail(product)}>查看详情</Button>
-          <Tooltip title={favorite ? '取消收藏' : '收藏'}>
-            <Button type="text" className={favorite ? 'favorite-button is-favorite' : 'favorite-button'} icon={favorite ? <StarFilled /> : <StarOutlined />} aria-label={`${favorite ? '取消收藏' : '收藏'} ${product.name}`} onClick={() => onFavorite(product)} />
-          </Tooltip>
+          <Button type="text" className={favorite ? 'favorite-button is-favorite' : 'favorite-button'} icon={favorite ? <StarFilled /> : <StarOutlined />} aria-label={`${favorite ? '取消收藏' : '收藏'} ${product.name}`} onClick={() => onFavorite(product)}>
+            {favorite ? '取消收藏' : '收藏'}
+          </Button>
         </Space>
       </div>
     </Card>

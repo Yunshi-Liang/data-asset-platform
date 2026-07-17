@@ -50,16 +50,10 @@ function AssetCatalog() {
     if (next.status) setAssetStatusOverride(next.id, next.status)
   }
   const selectCatalog = (key) => { setSelectedCatalog(key); setCatalogOpen(false) }
-  const toggleAsset = (asset) => {
-    const enabling = canAssetAction(asset.status, 'enable')
-    const disabling = canAssetAction(asset.status, 'disable')
-    if (!enabling && !disabling) return message.warning('当前资产状态不允许启用或停用')
-    modal.confirm({ title: `确认${enabling ? '启用' : '停用'}该资产？`, content: enabling ? '启用后资产将进入待申请上架状态，关键资产信息将锁定。' : '停用后资产可编辑，重新启用前不能申请上架。', onOk() { updateAsset({ ...asset, status: enabling ? ASSET_STATUS.pendingPublish : ASSET_STATUS.pendingActivation }); message.success(`资产已${enabling ? '启用' : '停用'}`) } })
-  }
   const requestPublish = (asset) => {
-    if (!canAssetAction(asset.status, 'publish')) return message.warning('仅已启用且待申请上架的资产可以申请上架')
+    if (!canAssetAction(asset.status, 'publish')) return message.warning('仅待申请上架的资产可以申请上架')
     const checks = [
-      { label: '资产已启用', pass: asset.status === ASSET_STATUS.pendingPublish, detail: `当前状态为“${asset.status}”` },
+      { label: '资产状态允许上架', pass: asset.status === ASSET_STATUS.pendingPublish, detail: `当前状态为“${asset.status}”` },
       { label: '质量评分不少于 80 分', pass: asset.qualityScore >= 80, detail: `当前评分 ${asset.qualityScore} 分` },
       { label: '安全等级允许流通', pass: asset.securityLevel !== '核心数据', detail: asset.securityLevel === '核心数据' ? '核心数据不可直接进入公开门户' : `当前为${asset.securityLevel}` },
       { label: '元数据完整', pass: asset.metadataComplete, detail: asset.metadataComplete ? '必填元数据已完善' : '请补充必填元数据' },
@@ -89,9 +83,9 @@ function AssetCatalog() {
       <div className="page-title-row"><div><Typography.Title level={3}>数据资产目录</Typography.Title><Typography.Text type="secondary">统一组织治理成果，形成可检索、可评价、可运营的数据资产详情。</Typography.Text></div></div>
       <Card className="asset-list-card" title={<div className="asset-list-heading"><Typography.Text strong>{selectedCatalog ? getCatalogPath(selectedCatalog) : '全部资产'}</Typography.Text><Typography.Text type="secondary">当前目录共 {visibleAssets.length} 条资产</Typography.Text></div>} extra={<Popover rootClassName="catalog-popover" open={catalogOpen} onOpenChange={setCatalogOpen} placement="bottomRight" trigger="click" content={catalogPanel}><Button icon={<FolderOpenOutlined />}>目录筛选</Button></Popover>}>
         <AssetFilters filters={filters} onChange={(key, value) => setFilters((previous) => ({ ...previous, [key]: value || '' }))} onReset={() => { setFilters(emptyFilters); setSelectedCatalog('') }} />
-        <AssetTable data={visibleAssets} onView={(asset) => setSelectedAssetId(asset.id)} onPublish={requestPublish} onToggle={toggleAsset} onCancelPublish={cancelPublish} onRollback={rollback} />
+        <AssetTable data={visibleAssets} onView={(asset) => setSelectedAssetId(asset.id)} onPublish={requestPublish} onCancelPublish={cancelPublish} onRollback={rollback} />
       </Card>
-      <AssetProfileDrawer open={Boolean(selectedAsset)} asset={selectedAsset} onClose={() => setSelectedAssetId(null)} onUpdate={updateAsset} onMove={setMoveAsset} onPublish={requestPublish} onToggle={toggleAsset} onCancelPublish={cancelPublish} onRollback={rollback} />
+      <AssetProfileDrawer open={Boolean(selectedAsset)} asset={selectedAsset} onClose={() => setSelectedAssetId(null)} onUpdate={updateAsset} onMove={setMoveAsset} onPublish={requestPublish} onCancelPublish={cancelPublish} onRollback={rollback} />
       <CatalogMoveModal open={Boolean(moveAsset)} asset={moveAsset} onCancel={() => setMoveAsset(null)} onSubmit={(catalogKey) => { updateAsset({ ...moveAsset, catalogKey }); setMoveAsset(null); message.success('资产目录已调整') }} />
       <Modal open={Boolean(publishResult)} title="数据产品上架前检查" width={620} onCancel={() => setPublishResult(null)} footer={publishResult?.code ? <Button type="primary" onClick={() => navigate('/product-publish')}>前往数据产品上架</Button> : <Space><Button onClick={() => setPublishResult(null)}>返回</Button><Button type="primary" disabled={!publishResult?.passed} onClick={submitPublish}>确认申请上架</Button></Space>}>
         {publishResult && <><Typography.Title level={5}>{publishResult.asset.name}</Typography.Title><div className="publish-check-list">{publishResult.checks.map((item) => <div className={item.pass ? 'check-pass' : 'check-fail'} key={item.label}><strong>{item.pass ? '✓' : '✕'} {item.label}</strong><span>{item.detail}</span></div>)}</div>{publishResult.code && <Card className="publish-success"><Typography.Title level={4}>上架申请已提交</Typography.Title><Typography.Text>申请编号：{publishResult.code}</Typography.Text></Card>}</>}

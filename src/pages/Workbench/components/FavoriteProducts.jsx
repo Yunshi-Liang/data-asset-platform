@@ -11,7 +11,7 @@ function FavoriteProducts({ data, onView, onRemove }) {
     { title: '安全等级', dataIndex: 'securityLevel', render: (value) => <Tag color={value === '重要数据' ? 'orange' : 'blue'}>{value}</Tag> },
     { title: '更新时间', dataIndex: 'updatedAt', width: 150 }, { title: '收藏时间', dataIndex: 'favoriteAt', width: 150 },
     { title: '状态', dataIndex: 'status', render: (value) => <Tag color="success">{value}</Tag> },
-    { title: '操作', fixed: 'right', width: 86, render: (_, record) => <div className="table-icon-actions"><TableIconButton label="详情" icon={<EyeOutlined />} onClick={() => onView(record)} /><TableIconButton label="取消收藏" icon={<StarFilled />} onClick={() => onRemove(record)} /></div> },
+    { title: '操作', fixed: 'right', width: 86, render: (_, record) => <div className="table-icon-actions"><TableIconButton label="详情" icon={<EyeOutlined />} onClick={() => onView(record)} /><TableIconButton className="favorite-star-button" label="取消收藏" icon={<StarFilled />} onClick={() => onRemove(record)} /></div> },
   ]
   return <Table rowKey="id" size="middle" scroll={{ x: 1620 }} columns={columns} dataSource={data} pagination={{ pageSize: 6 }} />
 }

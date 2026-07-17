@@ -1,4 +1,5 @@
 export const currentUser = {
+  account: 'DataZhang',
   name: '张数据',
   department: '数据管理中心',
   role: '数据管理员',
