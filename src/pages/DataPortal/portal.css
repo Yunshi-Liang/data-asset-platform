@@ -347,6 +347,7 @@
 .favorite-button.is-favorite {
   color: #d48806;
 }
+.detail-favorite-button.is-favorite { color: #d48806; border-color: #f5c96a; }
 
 .portal-empty {
   display: flex;

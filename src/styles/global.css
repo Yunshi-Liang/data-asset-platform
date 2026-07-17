@@ -51,7 +51,7 @@ select {
   height: 82px;
   align-items: center;
   gap: 10px;
-  padding: 12px 22px 12px 18px;
+  padding: 12px 30px 12px 18px;
   color: #fff;
   border-bottom: 1px solid rgb(255 255 255 / 10%);
   white-space: nowrap;
@@ -179,29 +179,29 @@ select {
   position: absolute;
   z-index: 30;
   top: 50%;
-  right: -14px;
+  right: 8px;
   display: flex;
-  width: 28px;
-  height: 44px;
-  border: 0;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 50%;
   align-items: center;
   justify-content: center;
   padding: 0;
-  color: #78aef0;
-  background: transparent;
-  box-shadow: none;
-  font-size: 18px;
-  font-weight: 700;
-  text-shadow: 0 0 5px rgb(22 119 255 / 38%);
+  color: #dbeafe;
+  background: #17365f;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
+  font-size: 14px;
   transform: translateY(-50%);
 }
 
 .sider-collapse-button:hover,
 .sider-collapse-button:focus-visible {
-  color: #1677ff !important;
-  background: transparent !important;
-  text-shadow: 0 0 7px rgb(22 119 255 / 58%);
+  color: #fff !important;
+  background: #1f4b80 !important;
+  border-color: rgb(255 255 255 / 25%) !important;
 }
+.sider-collapse-button:active { background:#102f57 !important; transform:translateY(-50%) scale(.96); }
 
 .section-table-card,
 .access-table-card,
@@ -233,7 +233,7 @@ select {
 }
 
 .ant-layout-sider-collapsed .sider-collapse-button {
-  right: -14px;
+  right: 8px;
 }
 
 .site-layout {

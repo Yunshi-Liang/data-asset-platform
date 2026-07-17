@@ -51,7 +51,7 @@ function DataGovernance() {
     if (task.status !== 'completed' || task.catalogSubmission === 'submitted') return
     modal.confirm({
       title: '提交至数据资产目录',
-      content: `确认将“${task.name}”的治理成果提交至 ${getCatalogPath(task.catalogKey)}？提交成功后资产将自动启用。`,
+      content: `确认将“${task.name}”的治理成果提交至 ${getCatalogPath(task.catalogKey)}？提交成功后资产将进入待申请上架状态。`,
       okText: '确认提交', cancelText: '取消',
       onOk: () => {
         const draft = drafts[task.id]

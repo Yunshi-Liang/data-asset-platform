@@ -1,4 +1,4 @@
-import { EyeOutlined, PlayCircleOutlined, ReloadOutlined, UploadOutlined } from '@ant-design/icons'
+import { EyeOutlined, PlayCircleOutlined, UploadOutlined } from '@ant-design/icons'
 import { Progress, Table, Tag } from 'antd'
 import TableIconButton from '../../../components/TableIconButton'
 
@@ -14,15 +14,14 @@ function GovernanceTaskTable({ tasks, onOpen, onSubmitCatalog }) {
     { title: '目录提交状态', dataIndex: 'catalogSubmission', width: 120, render: (value) => <Tag color={submissionMeta[value][0]}>{submissionMeta[value][1]}</Tag> },
     { title: '负责人', dataIndex: 'owner', width: 80 }, { title: '更新时间', dataIndex: 'updateTime', width: 150 },
     { title: '操作', key: 'action', width: 150, fixed: 'right', render: (_, record) => {
-      const editable = ['pending', 'running', 'confirming'].includes(record.status)
+      const editable = ['pending', 'running', 'confirming', 'failed'].includes(record.status) || record.catalogSubmission === 'returned'
       const completed = record.status === 'completed'
       const submitReady = completed && ['unsubmitted', 'failed'].includes(record.catalogSubmission)
-      const restartReady = record.status === 'failed' || record.catalogSubmission === 'returned'
+      const governanceLabel = record.status === 'pending' ? '开始治理' : record.status === 'failed' || record.catalogSubmission === 'returned' ? '重新治理' : record.status === 'completed' ? '治理已完成' : '继续治理'
       return <div className="table-icon-actions">
-        <TableIconButton label={record.status === 'pending' ? '开始治理' : '继续处理'} disabledReason={editable ? undefined : '当前任务状态不可继续处理'} icon={<PlayCircleOutlined />} onClick={() => onOpen(record)} />
+        <TableIconButton label={governanceLabel} disabledReason={editable ? undefined : '治理已完成'} icon={<PlayCircleOutlined />} onClick={() => onOpen(record)} />
         <TableIconButton label="查看结果" disabledReason={completed ? undefined : '治理尚未完成，暂无结果'} icon={<EyeOutlined />} onClick={() => onOpen(record)} />
         <TableIconButton label="提交资产目录" disabledReason={submitReady ? undefined : record.catalogSubmission === 'submitted' ? '已提交资产目录' : '当前任务尚未完成'} icon={<UploadOutlined />} onClick={() => onSubmitCatalog(record)} />
-        <TableIconButton label="重新治理" disabledReason={restartReady ? undefined : '当前状态不可重新治理'} icon={<ReloadOutlined />} onClick={() => onOpen(record)} />
       </div>
     } },
   ]

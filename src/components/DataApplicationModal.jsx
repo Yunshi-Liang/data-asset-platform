@@ -4,11 +4,11 @@ import { applicationMethods, getApplicationDefaults, usagePeriods } from '../moc
 
 const options = (values) => values.map((value) => ({ label: value, value }))
 
-function DataApplicationModal({ product, open, onCancel, onSubmit }) {
+function DataApplicationModal({ product, open, onCancel, onSubmit, initialValues }) {
   const [form] = Form.useForm()
   useEffect(() => {
-    if (open) form.setFieldsValue(getApplicationDefaults(product))
-  }, [form, open, product])
+    if (open) form.setFieldsValue({ ...getApplicationDefaults(product), ...initialValues })
+  }, [form, initialValues, open, product])
 
   const cancel = () => { form.resetFields(); onCancel() }
   const finish = (values) => { onSubmit(product, values); form.resetFields() }
