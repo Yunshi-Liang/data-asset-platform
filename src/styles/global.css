@@ -179,29 +179,30 @@ select {
   position: absolute;
   z-index: 30;
   top: 50%;
-  right: 8px;
+  right: 0;
   display: flex;
-  width: 30px;
-  height: 30px;
-  border: 1px solid rgb(255 255 255 / 14%);
-  border-radius: 50%;
+  width: 20px;
+  height: 42px;
+  border: 0;
+  border-radius: 0;
   align-items: center;
   justify-content: center;
   padding: 0;
   color: #dbeafe;
-  background: #17365f;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
-  font-size: 14px;
+  background: #1d426f;
+  box-shadow: none;
+  clip-path: polygon(30% 0, 100% 0, 100% 100%, 30% 100%, 0 74%, 0 26%);
+  font-size: 12px;
   transform: translateY(-50%);
 }
 
 .sider-collapse-button:hover,
 .sider-collapse-button:focus-visible {
   color: #fff !important;
-  background: #1f4b80 !important;
-  border-color: rgb(255 255 255 / 25%) !important;
+  background: #28598f !important;
+  border-color: transparent !important;
 }
-.sider-collapse-button:active { background:#102f57 !important; transform:translateY(-50%) scale(.96); }
+.sider-collapse-button:active { background:#14345b !important; transform:translateY(-50%) scale(.96); }
 
 .section-table-card,
 .access-table-card,
@@ -233,7 +234,7 @@ select {
 }
 
 .ant-layout-sider-collapsed .sider-collapse-button {
-  right: 8px;
+  right: 0;
 }
 
 .site-layout {
@@ -254,9 +255,52 @@ select {
   padding: 24px 24px 28px;
 }
 
-.app-breadcrumb {
-  margin-bottom: 16px;
+.page-header {
+  display: flex;
+  min-height: 64px;
+  margin: 4px 0 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.page-header-copy {
+  min-width: 0;
+}
+
+.page-header .page-header-title.ant-typography {
+  margin: 0 0 6px;
+  color: #172033;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.page-header .page-header-description {
+  display: block;
   color: #64748b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.sider-user-dropdown.is-collapsed .ant-dropdown-menu {
+  min-width: 48px;
+  padding: 4px;
+}
+
+.sider-user-dropdown.is-collapsed .ant-dropdown-menu-item {
+  min-width: 40px;
+  justify-content: center;
+  padding: 8px;
+}
+
+.collapsed-user-menu-icon {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
 }
 
 .page-panel {

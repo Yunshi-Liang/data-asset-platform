@@ -46,7 +46,7 @@ function ProductPublish() {
 
   return (
     <div className="product-publish-page">
-      <div className="publish-title"><div><Typography.Title level={3}>数据产品上架中心</Typography.Title><Typography.Text type="secondary">审核资产上架申请，完成产品信息封装、质量安全检查和门户配置。</Typography.Text></div><PublishOverview pendingCount={pendingAssets.length} listedCount={products.length} /></div>
+      <div className="page-header publish-title"><div className="page-header-copy"><Typography.Title className="page-header-title" level={3}>数据产品上架中心</Typography.Title><Typography.Text className="page-header-description">审核资产上架申请，完成产品信息封装、质量安全检查和门户配置。</Typography.Text></div><PublishOverview pendingCount={pendingAssets.length} listedCount={products.length} /></div>
       <Card className="publish-section" title="待审核上架资产" extra={<Typography.Text type="secondary">展示已在数据资产目录中提交上架申请、等待质量与安全检查的资产。</Typography.Text>}><PendingAssetTable data={pendingAssets} onStart={setWizardAsset} onView={setAssetDetail} /></Card>
       <Card className="publish-section" title="已上架产品"><PublishedProductTable data={products} onView={setDetailProduct} onTakeDown={takeDown} /></Card>
       <PublishWizard open={Boolean(wizardAsset)} asset={wizardAsset} onClose={() => setWizardAsset(null)} onListed={listed} />

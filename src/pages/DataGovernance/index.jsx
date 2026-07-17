@@ -76,7 +76,7 @@ function DataGovernance() {
 
   return (
     <div className="data-governance-page">
-      <div className="governance-heading"><div><Title level={2}>数据治理</Title><Text type="secondary">将接入的原始数据标准化、质量检查并完善为待编目数据资产。</Text></div></div>
+      <div className="page-header governance-heading"><div className="page-header-copy"><Title className="page-header-title" level={2}>数据治理</Title><Text className="page-header-description">将接入的原始数据标准化、质量检查并完善为待编目数据资产。</Text></div></div>
       <GovernanceOverview />
       <Card className="governance-task-card" title={<Space orientation="vertical" size={0}><span>治理任务</span><Text type="secondary">覆盖待治理、执行中和历史治理任务</Text></Space>} extra={<Text type="secondary">当前显示 {filteredTasks.length} / {tasks.length}</Text>}>
         <GovernanceFilters filters={filters} onChange={(key, value) => setFilters((current) => ({ ...current, [key]: value }))} onReset={() => setFilters(emptyFilters)} />
