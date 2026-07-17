@@ -4,7 +4,7 @@ export const applicationMethods = ['文件下载', '在线查看', 'API 调用',
 export const usagePeriods = ['1 个月', '3 个月', '6 个月', '12 个月']
 
 export const applicationStepState = {
-  completed: { label: '已完成', color: 'success', stepStatus: 'finish' },
+  completed: { label: '已完成', color: 'blue', stepStatus: 'finish' },
   rejected: { label: '已驳回', color: 'error', stepStatus: 'error' },
   pending: { label: '未完成', color: 'default', stepStatus: 'wait' },
 }

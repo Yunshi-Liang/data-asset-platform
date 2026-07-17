@@ -142,7 +142,7 @@ function ProductDetailDrawer({ product, open, favorite, applied, onClose, onFavo
       onClose={onClose}
       footer={
         <div className="drawer-footer">
-          <Button
+          <Button className={favorite ? 'detail-favorite-button is-favorite' : 'detail-favorite-button'}
             icon={favorite ? <StarFilled /> : <StarOutlined />}
             onClick={() => onFavorite(product)}
           >

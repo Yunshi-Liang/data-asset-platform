@@ -1,10 +1,19 @@
 .workbench-title { margin-bottom: 18px; }
 .workbench-title h3 { margin: 0 0 4px; }
-.user-summary { height: 100%; }
-.user-summary > .ant-card-body { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.workbench-overview-row { align-items: stretch; }
+.workbench-overview-row > .ant-col { display:flex; }
+.user-summary { width:100%; height:100%; }
+.user-summary > .ant-card-body { display: flex; height:100%; flex-direction:column; justify-content:space-between; gap: 14px; }
+.user-identity { display:flex; align-items:center; gap:14px; }
 .user-summary h5 { margin: 0; }
 .user-summary .ant-descriptions { width: 100%; }
 .user-permissions { display: flex; flex-direction: column; gap: 8px; width: 100%; padding-top: 4px; }
+.user-permissions .ant-tag { margin-inline-end:0; }
+.workbench-statistics > .ant-row { width:100%; height:100%; }
+.workbench-statistics .ant-col { display:flex; }
+.workbench-statistics .ant-card { width:100%; }
+.favorite-star-button { color:#f5b301 !important; }
+.favorite-star-button:hover { color:#1f2937 !important; }
 .workbench-tabs { margin-top: 16px; }
 .workbench-section { margin-top: 20px; }
 .risk-check { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: #f7f9fc; border-radius: 8px; }
@@ -12,6 +21,17 @@
 .handled-switch { margin: 16px 0; }
 .ant-tabs-tab-btn { white-space: nowrap; }
 .application-row-highlight > td { background: #e6f4ff !important; transition: background .4s ease; }
+.application-progress-flow { display:flex; flex-direction:column; }
+.application-progress-node { display:grid; min-height:74px; grid-template-columns:34px minmax(0,1fr); gap:12px; }
+.application-progress-rail { position:relative; display:flex; justify-content:center; }
+.application-progress-icon { position:relative; z-index:1; display:inline-flex; width:26px; height:26px; align-items:center; justify-content:center; border:2px solid; border-radius:50%; background:#fff; font-size:12px; }
+.application-progress-line { position:absolute; top:26px; bottom:0; width:2px; background:#cbd5e1; }
+.application-progress-content { display:flex; padding:2px 0 18px; flex-direction:column; gap:8px; }
+.application-progress-node.is-completed .application-progress-icon { border-color:#1677ff; color:#fff; background:#1677ff; }
+.application-progress-node.is-completed .application-progress-line { background:#1677ff; }
+.application-progress-node.is-rejected .application-progress-icon { border-color:#ff4d4f; color:#fff; background:#ff4d4f; }
+.application-progress-node.is-rejected .application-progress-line { background:#ff4d4f; }
+.application-progress-node.is-pending .application-progress-icon { border-color:#b8c2cf; color:#94a3b8; background:#fff; }
 @media (max-width: 1000px) {
   .workbench-page > .ant-row > .ant-col { flex: 0 0 100% !important; }
   .user-summary { margin-bottom: 12px; }

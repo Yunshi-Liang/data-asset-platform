@@ -4,16 +4,16 @@ import { applicationMethods, getApplicationDefaults, usagePeriods } from '../moc
 
 const options = (values) => values.map((value) => ({ label: value, value }))
 
-function DataApplicationModal({ product, open, onCancel, onSubmit }) {
+function DataApplicationModal({ product, open, onCancel, onSubmit, initialValues }) {
   const [form] = Form.useForm()
   useEffect(() => {
-    if (open) form.setFieldsValue(getApplicationDefaults(product))
-  }, [form, open, product])
+    if (open) form.setFieldsValue({ ...getApplicationDefaults(product), ...initialValues })
+  }, [form, initialValues, open, product])
 
   const cancel = () => { form.resetFields(); onCancel() }
   const finish = (values) => { onSubmit(product, values); form.resetFields() }
 
-  return <Modal open={open} title="数据使用申请" width={700} okText="提交申请" cancelText="取消" forceRender destroyOnHidden onCancel={cancel} onOk={() => form.submit()}><Form form={form} layout="vertical" preserve={false} onFinish={finish}><Row gutter={16}>
+  return <Modal open={open} zIndex={1200} title="数据使用申请" width={700} okText="提交申请" cancelText="取消" forceRender destroyOnHidden mask={{ closable: false }} onCancel={cancel} onOk={() => form.submit()}><Form form={form} layout="vertical" preserve={false} onFinish={finish}><Row gutter={16}>
     <Col span={12}><Form.Item name="applicant" label="申请人"><Input readOnly /></Form.Item></Col>
     <Col span={12}><Form.Item name="department" label="所属部门"><Input readOnly /></Form.Item></Col>
     <Col span={12}><Form.Item name="productName" label="申请产品"><Input readOnly /></Form.Item></Col>
