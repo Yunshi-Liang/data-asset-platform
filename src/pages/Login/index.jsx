@@ -1,6 +1,7 @@
 import { LockOutlined, ThunderboltFilled, UserOutlined } from '@ant-design/icons'
 import { App, Button, Card, Form, Input, Typography } from 'antd'
 import { Navigate, useNavigate } from 'react-router-dom'
+import loginBackground from '../../assets/images/login-background.png'
 import { authenticate, isAuthenticated, setAuthenticated } from '../../utils/authSession'
 import './login.css'
 
@@ -19,7 +20,7 @@ function Login() {
     navigate('/', { replace: true })
   }
 
-  return <main className="login-page">
+  return <main className="login-page" style={{ backgroundImage: `linear-gradient(rgba(7, 28, 57, 0.3), rgba(7, 28, 57, 0.38)), url(${loginBackground})` }}>
     <Card className="login-card">
       <div className="login-brand"><span><ThunderboltFilled /></span><div><Typography.Title level={3}>电力数据资产管理平台</Typography.Title><Typography.Text type="secondary">电力设计院数据资产全生命周期管理平台</Typography.Text></div></div>
       <Form layout="vertical" size="large" onFinish={submit} requiredMark={false}>

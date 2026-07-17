@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { LeftOutlined, RightOutlined, ThunderboltFilled } from '@ant-design/icons'
-import { App, Avatar, Breadcrumb, Button, Divider, Dropdown, Layout, Menu, Tooltip, Typography } from 'antd'
+import { LeftOutlined, LogoutOutlined, RightOutlined, ThunderboltFilled, UserOutlined } from '@ant-design/icons'
+import { App, Avatar, Button, Divider, Dropdown, Layout, Menu, Tooltip, Typography } from 'antd'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { currentUser } from '../mock/currentUser'
 import { constructionMenuItems, coreMenuItems, getRouteMeta } from '../router/config'
@@ -15,16 +15,24 @@ function MainLayout() {
   const navigate = useNavigate()
   const { modal } = App.useApp()
   const currentRoute = getRouteMeta(location.pathname)
-  const pageTitle = currentRoute?.title || '页面未找到'
 
-  const breadcrumbItems = [
-    { title: '电力数据资产管理平台' },
-    { title: pageTitle },
-  ]
   const userMenu = { items: [
-    { key: 'workbench', label: '个人工作台' },
+    {
+      key: 'workbench',
+      icon: collapsed ? undefined : <UserOutlined />,
+      label: collapsed
+        ? <Tooltip title="个人工作台" placement="right"><span className="collapsed-user-menu-icon" aria-label="个人工作台"><UserOutlined /></span></Tooltip>
+        : '个人工作台',
+    },
     { type: 'divider' },
-    { key: 'logout', label: '退出登录', danger: true },
+    {
+      key: 'logout',
+      icon: collapsed ? undefined : <LogoutOutlined />,
+      label: collapsed
+        ? <Tooltip title="退出登录" placement="right"><span className="collapsed-user-menu-icon" aria-label="退出登录"><LogoutOutlined /></span></Tooltip>
+        : '退出登录',
+      danger: true,
+    },
   ], onClick: ({ key }) => {
     if (key === 'workbench') navigate('/workbench')
     if (key === 'logout') modal.confirm({
@@ -72,7 +80,12 @@ function MainLayout() {
           </div>
         </div>
         <div className="sider-footer">
-          <Dropdown menu={userMenu} placement="topLeft" trigger={['click']}>
+          <Dropdown
+            menu={userMenu}
+            placement="topLeft"
+            trigger={['click']}
+            rootClassName={collapsed ? 'sider-user-dropdown is-collapsed' : 'sider-user-dropdown'}
+          >
             <div className="sider-user sider-user-link" role="button" tabIndex={0} aria-label="打开用户菜单" onKeyDown={(event) => { if (event.key === 'Enter') event.currentTarget.click() }}>
               <Avatar className="user-avatar">{currentUser.name.slice(0, 1)}</Avatar>
               {!collapsed && (
@@ -97,7 +110,6 @@ function MainLayout() {
 
       <Layout className="site-layout">
         <Content className="app-main">
-          <Breadcrumb className="app-breadcrumb" items={breadcrumbItems} />
           <Outlet />
         </Content>
       </Layout>
