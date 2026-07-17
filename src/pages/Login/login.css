@@ -1,0 +1,7 @@
+.login-page { display:flex; min-width:1024px; min-height:100vh; align-items:center; justify-content:center; padding:40px; background:#f1f5fa; }
+.login-card { width:420px; border-color:#dfe8f3; border-radius:10px; box-shadow:0 14px 40px rgb(17 52 94 / 12%); }
+.login-card .ant-card-body { padding:36px; }
+.login-brand { display:flex; margin-bottom:30px; align-items:center; gap:14px; }
+.login-brand > span { display:inline-flex; width:46px; height:46px; align-items:center; justify-content:center; border-radius:9px; color:#fff; background:#1677ff; font-size:24px; }
+.login-brand h3.ant-typography { margin:0 0 3px; color:#172033; }
+.login-demo-note { display:block; margin-top:20px; text-align:center; font-size:12px; }

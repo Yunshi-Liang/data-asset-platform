@@ -42,7 +42,7 @@ select {
   inset-block: 0;
   inset-inline-start: 0;
   z-index: 20;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: 3px 0 14px rgb(8 30 66 / 14%);
 }
 
@@ -51,7 +51,7 @@ select {
   height: 82px;
   align-items: center;
   gap: 10px;
-  padding: 12px 19px;
+  padding: 12px 30px 12px 18px;
   color: #fff;
   border-bottom: 1px solid rgb(255 255 255 / 10%);
   white-space: nowrap;
@@ -79,7 +79,7 @@ select {
 
 .app-sider .ant-menu {
   flex: 1;
-  padding: 20px 8px;
+  padding: 10px 8px;
   border-inline-end: 0;
   overflow-y: auto;
 }
@@ -89,56 +89,35 @@ select {
   flex: 1;
 }
 
-.sider-section-label {
-  display: block;
-  padding: 4px 24px 8px;
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-}
-
 .sider-menu-divider {
   width: auto;
   min-width: 0;
-  margin: 12px 18px 16px;
+  margin: 8px 18px;
   border-color: rgba(255, 255, 255, 0.12);
 }
 
-.construction-menu:not(.is-collapsed) .ant-menu-item {
+.construction-menu {
   position: relative;
 }
 
-.construction-menu:not(.is-collapsed) .ant-menu-item::before {
+.ant-layout-sider-collapsed .brand {
+  justify-content: center;
+  padding-inline: 19px;
+}
+
+.construction-menu .ant-menu-title-content {
+  position: relative;
+}
+
+.construction-menu:not(.is-collapsed) .ant-menu-item:not(:last-child) .ant-menu-title-content::after {
   position: absolute;
-  z-index: 1;
-  top: -14px;
-  bottom: 28px;
-  left: 31px;
-  width: 1px;
-  background: rgba(145, 202, 255, 0.36);
-  content: '';
-}
-
-.construction-menu:not(.is-collapsed) .ant-menu-item:first-child::before {
-  top: 20px;
-}
-
-.construction-menu:not(.is-collapsed) .ant-menu-item::after {
-  position: absolute;
-  z-index: 2;
-  top: 19px;
-  left: 28px;
-  width: 7px;
-  height: 7px;
-  border: 1px solid #91caff;
-  border-radius: 50%;
-  background: #0b2347;
-  content: '';
-}
-
-.construction-menu:not(.is-collapsed) .ant-menu-item-selected::after {
-  border-color: #fff;
-  background: #fff;
+  bottom: -17px;
+  left: -26px;
+  color: rgba(145, 202, 255, 0.62);
+  font-size: 12px;
+  line-height: 1;
+  content: '↓';
+  pointer-events: none;
 }
 
 .app-sider .ant-layout-sider-children {
@@ -196,26 +175,49 @@ select {
   font-size: 11px;
 }
 
-.sider-notification-button,
 .sider-collapse-button {
-  color: #9fb0c8;
-}
-
-.sider-notification-button:hover,
-.sider-collapse-button:hover {
-  color: #fff !important;
-  background: rgb(255 255 255 / 8%) !important;
-}
-
-.sider-collapse-button {
+  position: absolute;
+  z-index: 30;
+  top: 50%;
+  right: 8px;
   display: flex;
-  width: 100%;
-  height: 38px;
-  margin-top: 4px;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 50%;
   align-items: center;
-  justify-content: flex-start;
-  padding-inline: 11px;
+  justify-content: center;
+  padding: 0;
+  color: #dbeafe;
+  background: #17365f;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 18%);
+  font-size: 14px;
+  transform: translateY(-50%);
 }
+
+.sider-collapse-button:hover,
+.sider-collapse-button:focus-visible {
+  color: #fff !important;
+  background: #1f4b80 !important;
+  border-color: rgb(255 255 255 / 25%) !important;
+}
+.sider-collapse-button:active { background:#102f57 !important; transform:translateY(-50%) scale(.96); }
+
+.section-table-card,
+.access-table-card,
+.governance-task-card,
+.asset-list-card { margin-top: 0; }
+.section-table-card > .ant-card-head,
+.access-table-card > .ant-card-head,
+.governance-task-card > .ant-card-head,
+.asset-list-card > .ant-card-head { min-height: 64px; padding-block: 9px 7px; }
+.section-table-card > .ant-card-body,
+.access-table-card > .ant-card-body,
+.governance-task-card > .ant-card-body,
+.asset-list-card > .ant-card-body { padding-top: 18px; }
+.table-icon-actions { display: inline-flex; align-items: center; gap: 4px; }
+.table-icon-button-wrap { display: inline-flex; }
+.table-icon-button { width: 28px; min-width: 28px; height: 28px; padding: 0; }
 
 .ant-layout-sider-collapsed .sider-footer {
   padding-inline: 10px;
@@ -226,13 +228,12 @@ select {
   padding: 5px 0;
 }
 
-.ant-layout-sider-collapsed .sider-notification-button,
 .ant-layout-sider-collapsed .sider-collapse-button {
   justify-content: center;
 }
 
 .ant-layout-sider-collapsed .sider-collapse-button {
-  padding-inline: 0;
+  right: 8px;
 }
 
 .site-layout {

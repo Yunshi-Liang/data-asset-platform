@@ -86,35 +86,33 @@ export const getCatalogPath = (key) => catalogMap[key]?.path || key
 
 export const ASSET_STATUS = {
   governanceError: '治理异常',
-  pendingActivation: '待启用',
   pendingPublish: '待申请上架',
   publishApplied: '已申请上架',
 }
 
 export const assetStatusMeta = {
   [ASSET_STATUS.governanceError]: { color: 'error', actions: ['view', 'rollback'] },
-  [ASSET_STATUS.pendingActivation]: { color: 'default', actions: ['view', 'edit', 'enable'] },
-  [ASSET_STATUS.pendingPublish]: { color: 'processing', actions: ['view', 'disable', 'publish'] },
+  [ASSET_STATUS.pendingPublish]: { color: 'processing', actions: ['view', 'edit', 'publish'] },
   [ASSET_STATUS.publishApplied]: { color: 'success', actions: ['view', 'cancelPublish'] },
 }
 
 export const canAssetAction = (status, action) => assetStatusMeta[status]?.actions.includes(action) ?? false
 
 const baseAssets = [
-  ['DA-GD-2026-001','广东省输电线路路径 GIS 数据集','electrical/line/path','电气设计数据','GIS 数据','广东省','广东输电线路 GIS 数据库',98,'重要数据','待申请上架',['输电线路','GIS','高价值']],
+  ['DA-GD-2026-001','广东省输电线路路径 GIS 数据集','electrical/line/path','电气设计数据','GIS 数据','广东省','广东输电线路 GIS 数据库',98,'重要数据','已申请上架',['输电线路','GIS','高价值']],
   ['DA-GD-2026-002','粤港澳大湾区数字高程模型','survey/mapping/dem','勘测数据','GIS 数据','广东省','珠三角无人机测绘成果',97,'一般数据','已申请上架',['DEM','高程数据','华南地区']],
   ['DA-GX-2026-003','广西地质钻孔与岩土试验成果','survey/geology/borehole','勘测数据','结构化数据','广西壮族自治区','广西地质勘察成果库',95,'重要数据','待申请上架',['地质钻孔','岩土试验']],
   ['DA-HN-2026-004','海南水文气象逐小时观测数据','survey/weather/rain','勘测数据','API 服务','海南省','海南水文气象 API',94,'一般数据','待申请上架',['水文气象','API']],
   ['DA-GD-2026-005','广东电网工程材料价格指标','cost/price/material','技经数据','结构化数据','广东省','广东工程造价指标库',98,'一般数据','已申请上架',['材料价格','技经','高频使用']],
   ['DA-GD-2026-006','广州变电站设备参数台账','electrical/equipment/transformer','电气设计数据','结构化数据','广州市','广州变电站设备台账',76,'重要数据','治理异常',['变电站','设备参数']],
   ['DA-GD-2026-007','珠三角无人机正射影像成果','survey/mapping/uav','勘测数据','GIS 数据','珠海市','珠三角无人机测绘成果',96,'重要数据','待申请上架',['无人机航测','DOM']],
-  ['DA-GD-2026-008','深圳电网规划项目档案','project/archive/research','工程数据','文档资料','深圳市','深圳电网规划数据接口',93,'重要数据','待启用',['电网规划','可研']],
-  ['DA-GD-2026-009','湛江沿海风速风向监测数据','survey/weather/wind','勘测数据','结构化数据','湛江市','湛江沿海风速监测数据',91,'一般数据','待启用',['风速风向','沿海工程']],
+  ['DA-GD-2026-008','深圳电网规划项目档案','project/archive/research','工程数据','文档资料','深圳市','深圳电网规划数据接口',93,'重要数据','待申请上架',['电网规划','可研']],
+  ['DA-GD-2026-009','湛江沿海风速风向监测数据','survey/weather/wind','勘测数据','结构化数据','湛江市','湛江沿海风速监测数据',91,'一般数据','待申请上架',['风速风向','沿海工程']],
   ['DA-GD-2026-010','500kV 变电站典型主接线方案','electrical/primary/wiring','电气设计数据','文档资料','东莞市','电气专业知识管理平台',99,'重要数据','待申请上架',['主接线','典型设计']],
   ['DA-GD-2026-011','输电线路杆塔三维模型库','project/design/3d','工程数据','三维模型','惠州市','三维协同设计平台',97,'重要数据','已申请上架',['杆塔','三维模型']],
   ['DA-GD-2026-012','电力工程设计规程规范知识库','knowledge/standard','标准知识库','文档资料','广东省','企业标准知识管理系统',99,'一般数据','待申请上架',['设计规范','技术标准']],
-  ['DA-GX-2026-013','广西输变电工程造价指标库','cost/project/index','技经数据','API 服务','广西壮族自治区','历史工程造价数据库',96,'重要数据','待启用',['工程造价','投资估算']],
-  ['DA-HN-2026-014','海南变电站地质灾害风险数据','survey/geology/hazard','勘测数据','GIS 数据','海南省','工程地质勘察系统',88,'核心数据','待启用',['地质灾害','风险评估']],
+  ['DA-GX-2026-013','广西输变电工程造价指标库','cost/project/index','技经数据','API 服务','广西壮族自治区','历史工程造价数据库',96,'重要数据','待申请上架',['工程造价','投资估算']],
+  ['DA-HN-2026-014','海南变电站地质灾害风险数据','survey/geology/hazard','勘测数据','GIS 数据','海南省','工程地质勘察系统',88,'核心数据','待申请上架',['地质灾害','风险评估']],
 ]
 
 const assetGovernanceTaskIds = {

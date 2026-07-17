@@ -1,14 +1,10 @@
 import { useState } from 'react'
-import {
-  BellOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  ThunderboltFilled,
-} from '@ant-design/icons'
-import { Avatar, Breadcrumb, Button, Divider, Layout, Menu, Tooltip, Typography } from 'antd'
+import { LeftOutlined, RightOutlined, ThunderboltFilled } from '@ant-design/icons'
+import { App, Avatar, Breadcrumb, Button, Divider, Dropdown, Layout, Menu, Tooltip, Typography } from 'antd'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { currentUser } from '../mock/currentUser'
 import { constructionMenuItems, coreMenuItems, getRouteMeta } from '../router/config'
+import { clearAuthentication } from '../utils/authSession'
 
 const { Sider, Content } = Layout
 const { Text } = Typography
@@ -17,6 +13,7 @@ function MainLayout() {
   const [collapsed, setCollapsed] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
+  const { modal } = App.useApp()
   const currentRoute = getRouteMeta(location.pathname)
   const pageTitle = currentRoute?.title || '页面未找到'
 
@@ -24,6 +21,21 @@ function MainLayout() {
     { title: '电力数据资产管理平台' },
     { title: pageTitle },
   ]
+  const userMenu = { items: [
+    { key: 'workbench', label: '个人工作台' },
+    { type: 'divider' },
+    { key: 'logout', label: '退出登录', danger: true },
+  ], onClick: ({ key }) => {
+    if (key === 'workbench') navigate('/workbench')
+    if (key === 'logout') modal.confirm({
+      title: '确认退出登录？',
+      content: '退出后需要重新登录才能进入平台。',
+      okText: '退出登录',
+      okButtonProps: { danger: true },
+      cancelText: '取消',
+      onOk: () => { clearAuthentication(); navigate('/login', { replace: true }) },
+    })
+  } }
 
   return (
     <Layout className="app-layout">
@@ -41,7 +53,6 @@ function MainLayout() {
           {!collapsed && <span className="brand-name">电力数据资产管理平台</span>}
         </div>
         <div className="sider-navigation">
-          {!collapsed && <Text className="sider-section-label">平台核心入口</Text>}
           <Menu
             theme="dark"
             mode="inline"
@@ -50,7 +61,6 @@ function MainLayout() {
             onClick={({ key }) => navigate(key)}
           />
           <Divider className="sider-menu-divider" />
-          {!collapsed && <Text className="sider-section-label">数据资产建设流程</Text>}
           <div className={collapsed ? 'construction-menu is-collapsed' : 'construction-menu'}>
             <Menu
               theme="dark"
@@ -62,8 +72,8 @@ function MainLayout() {
           </div>
         </div>
         <div className="sider-footer">
-          <Tooltip title="进入个人工作台" placement="right">
-            <div className="sider-user sider-user-link" role="button" tabIndex={0} onClick={() => navigate('/workbench')} onKeyDown={(event) => { if (event.key === 'Enter') navigate('/workbench') }}>
+          <Dropdown menu={userMenu} placement="topLeft" trigger={['click']}>
+            <div className="sider-user sider-user-link" role="button" tabIndex={0} aria-label="打开用户菜单" onKeyDown={(event) => { if (event.key === 'Enter') event.currentTarget.click() }}>
               <Avatar className="user-avatar">{currentUser.name.slice(0, 1)}</Avatar>
               {!collapsed && (
                 <div className="sider-user-info">
@@ -71,25 +81,18 @@ function MainLayout() {
                   <Text className="user-role">{currentUser.role}</Text>
                 </div>
               )}
-            <Button
-              type="text"
-              className="sider-notification-button"
-              icon={<BellOutlined />}
-              aria-label="消息通知"
-              onClick={(event) => event.stopPropagation()}
-            />
             </div>
-          </Tooltip>
+          </Dropdown>
+        </div>
+        <Tooltip title={collapsed ? '展开侧边栏' : '收起侧边栏'} placement="right">
           <Button
             type="text"
             className="sider-collapse-button"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            icon={collapsed ? <RightOutlined /> : <LeftOutlined />}
             onClick={() => setCollapsed((value) => !value)}
             aria-label={collapsed ? '展开侧边栏' : '折叠侧边栏'}
-          >
-            {!collapsed && '收起侧边栏'}
-          </Button>
-        </div>
+          />
+        </Tooltip>
       </Sider>
 
       <Layout className="site-layout">

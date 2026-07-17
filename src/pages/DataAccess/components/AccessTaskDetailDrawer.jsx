@@ -25,7 +25,7 @@ function AccessTaskDetailDrawer({ task, open, retrying, onClose, onRetry }) {
       <Typography.Title level={5} className="task-detail-title">执行日志摘要</Typography.Title>
       <div className="task-log-panel">{(task.logs || []).map((log) => <div key={log}>{log}</div>)}</div>
       {task.failureReason && <Alert className="task-failure-alert" showIcon type="error" title="失败原因" description={task.failureReason} />}
-      {task.status === 'failed' && <Space className="task-retry-action"><Button type="primary" loading={retrying} onClick={() => onRetry(task)}>重新执行</Button><Typography.Text type="secondary">重试只创建新的执行状态，不修改数据源连接配置。</Typography.Text></Space>}
+      {['failed', 'partial'].includes(task.status) && <Space className="task-retry-action"><Button type="primary" loading={retrying} onClick={() => onRetry(task)}>重试</Button><Typography.Text type="secondary">重试只创建新的执行状态，不修改数据源连接配置。</Typography.Text></Space>}
     </Drawer>
   )
 }

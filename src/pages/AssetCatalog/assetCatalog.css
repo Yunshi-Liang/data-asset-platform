@@ -1,15 +1,20 @@
 .asset-catalog-page { min-width: 0; }
 .page-title-row { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:18px; }
 .page-title-row .ant-typography { margin-top:0; }
-.catalog-main-layout { display:grid; grid-template-columns:270px minmax(0, 1fr); align-items:stretch; gap:16px; }
-.catalog-tree-panel { height:100%; min-height:680px; padding:18px 14px; background:#fff; border:1px solid #eef1f6; border-radius:10px; }
+.asset-list-heading { display:flex; flex-direction:column; gap:3px; }
+.catalog-tree-panel { width:320px; max-height:70vh; padding:10px 8px; background:#fff; }
 .catalog-tree-panel .ant-input-affix-wrapper { margin:10px 0 14px; }
-.catalog-tree-panel .ant-tree { max-height:620px; overflow:auto; }
+.catalog-tree-panel .ant-tree { max-height:56vh; overflow:auto; }
+.catalog-popover .ant-popover-inner { padding:10px; box-shadow:0 12px 32px rgb(15 35 68 / 18%); }
 .asset-list-card { min-width:0; }
-.asset-filters { margin-bottom:16px; }
-.asset-filters .ant-input-affix-wrapper { width:300px; }
-.asset-filters .ant-select { width:132px; }
-.asset-filters > .ant-input { width:130px; }
+.asset-filters { display:flex; margin-bottom:16px; gap:8px; }
+.asset-filters .ant-input-affix-wrapper { width:210px; }
+.asset-filters .ant-select { width:108px; }
+.asset-filters > .ant-input { width:92px; }
+
+@media (min-width: 1360px) {
+  .asset-filters { flex-wrap:nowrap; }
+}
 .table-name { height:auto; padding:0; text-align:left; white-space:normal; }
 .profile-heading { padding:2px 0 14px; }
 .profile-heading h4 { margin:0; }
@@ -40,4 +45,4 @@
 .check-pass { color:#237804; background:#f6ffed; }
 .check-fail { color:#a8071a; background:#fff1f0; }
 .publish-success { text-align:center; background:#f6ffed; }
-@media (max-width: 1100px) { .catalog-main-layout { grid-template-columns:230px minmax(0,1fr); } .profile-summary .ant-col { flex:0 0 33.333%; max-width:33.333%; margin-bottom:10px; } }
+@media (max-width: 1100px) { .profile-summary .ant-col { flex:0 0 33.333%; max-width:33.333%; margin-bottom:10px; } }
