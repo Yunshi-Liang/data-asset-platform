@@ -8,6 +8,7 @@ import { clearAuthentication } from '../utils/authSession'
 
 const { Sider, Content } = Layout
 const { Text } = Typography
+const logoutIcon = <LogoutOutlined className="logout-menu-icon" />
 
 function MainLayout() {
   const [collapsed, setCollapsed] = useState(false)
@@ -27,9 +28,9 @@ function MainLayout() {
     { type: 'divider' },
     {
       key: 'logout',
-      icon: collapsed ? undefined : <LogoutOutlined />,
+      icon: collapsed ? undefined : logoutIcon,
       label: collapsed
-        ? <Tooltip title="退出登录" placement="right"><span className="collapsed-user-menu-icon" aria-label="退出登录"><LogoutOutlined /></span></Tooltip>
+        ? <Tooltip title="退出登录" placement="right"><span className="collapsed-user-menu-icon" aria-label="退出登录">{logoutIcon}</span></Tooltip>
         : '退出登录',
       danger: true,
     },
