@@ -11,7 +11,7 @@ function Dashboard() {
       <Card className="dashboard-summary-card">
         <div className="dashboard-title-block">
           <Typography.Title level={3}>数据资产概览</Typography.Title>
-          <Typography.Text type="secondary">
+          <Typography.Text className="page-subtitle">
             统一展示平台数据资产规模、运营情况及核心业务入口。
           </Typography.Text>
         </div>
