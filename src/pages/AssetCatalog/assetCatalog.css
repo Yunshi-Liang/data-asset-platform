@@ -3,6 +3,9 @@
 .page-title-row .ant-typography { margin-top:0; }
 .asset-list-heading { display:flex; flex-direction:column; gap:3px; }
 .catalog-tree-panel { width:320px; max-height:70vh; padding:10px 8px; background:#fff; }
+.catalog-tree-toolbar { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.catalog-tree-toolbar h5.ant-typography { margin:0; }
+.catalog-tree-toolbar .ant-btn { padding-inline:5px; font-size:12px; }
 .catalog-tree-panel .ant-input-affix-wrapper { margin:10px 0 14px; }
 .catalog-tree-panel .ant-tree { max-height:56vh; overflow:auto; }
 .catalog-popover .ant-popover-inner { padding:10px; box-shadow:0 12px 32px rgb(15 35 68 / 18%); }

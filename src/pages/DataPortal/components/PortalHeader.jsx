@@ -8,7 +8,7 @@ function PortalHeader({ searchValue, onSearchValueChange, onSearch, onReset }) {
   return (
     <section className="portal-header-panel">
       <div className="portal-title-row">
-        <div><Title level={2}>数据产品门户</Title><Paragraph>统一检索、浏览和申请电力设计院已上架数据产品。</Paragraph></div>
+        <div><Title level={2}>数据产品门户</Title><Paragraph className="page-subtitle">统一检索、浏览和申请电力设计院已上架数据产品。</Paragraph></div>
       </div>
       <div className="portal-command-row">
         <div className="portal-search-row">
