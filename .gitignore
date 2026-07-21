@@ -26,3 +26,6 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# Local presentation and interview materials
+presentation/

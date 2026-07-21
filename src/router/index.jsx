@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createHashRouter } from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout'
 import AssetCatalog from '../pages/AssetCatalog'
 import Dashboard from '../pages/Dashboard'
@@ -30,7 +30,7 @@ const businessRoutes = routeConfig.map(({ path }, index) => {
     : { path: path.slice(1), element: <PageComponent /> }
 })
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   { path: '/login', element: <Login /> },
   {
     path: '/',
