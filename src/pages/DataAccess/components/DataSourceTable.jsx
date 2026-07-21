@@ -1,6 +1,7 @@
 import { EditOutlined, EyeOutlined, PauseCircleOutlined, PlayCircleOutlined, SyncOutlined } from '@ant-design/icons'
 import { Popconfirm, Table, Tag, Typography } from 'antd'
 import TableIconButton from '../../../components/TableIconButton'
+import { getDataSourceClassification } from '../../../mock/dataAccess'
 
 const { Text } = Typography
 const statusMeta = { normal: { color: 'success', text: '正常' }, syncing: { color: 'processing', text: '同步中' }, error: { color: 'error', text: '异常' }, disabled: { color: 'default', text: '已停用' } }
@@ -8,7 +9,9 @@ const statusMeta = { normal: { color: 'success', text: '正常' }, syncing: { co
 function DataSourceTable({ data, syncingIds, onDetail, onEdit, onSync, onToggle }) {
   const columns = [
     { title: '数据源名称', dataIndex: 'name', width: 230, fixed: 'left', render: (value, record) => <button className="source-name-button" onClick={() => onDetail(record)}>{value}<Text type="secondary">{record.id}</Text></button> },
-    { title: '类型', dataIndex: 'type', width: 110, render: (value) => <Tag color="blue">{value}</Tag> }, { title: '来源系统', dataIndex: 'system', width: 190, ellipsis: true },
+    { title: '接入模式', key: 'accessMode', width: 100, render: (_, record) => getDataSourceClassification(record).accessModeName },
+    { title: '数据源类型', key: 'sourceType', width: 130, render: (_, record) => <Tag color="blue">{getDataSourceClassification(record).sourceTypeName}</Tag> },
+    { title: '数据格式', key: 'dataFormat', width: 110, render: (_, record) => getDataSourceClassification(record).dataFormat }, { title: '来源系统', dataIndex: 'system', width: 190, ellipsis: true },
     { title: '业务域', dataIndex: 'domain', width: 120 }, { title: '地区', dataIndex: 'region', width: 110 }, { title: '同步方式', dataIndex: 'syncMode', width: 100 },
     { title: '更新频率', dataIndex: 'frequency', width: 110 }, { title: '最近同步时间', dataIndex: 'lastSync', width: 160 }, { title: '接入数据量', dataIndex: 'volume', width: 100 },
     { title: '运行状态', dataIndex: 'status', width: 100, render: (value) => <Tag color={statusMeta[value].color}>{statusMeta[value].text}</Tag> }, { title: '负责人', dataIndex: 'owner', width: 80 },
@@ -23,7 +26,7 @@ function DataSourceTable({ data, syncingIds, onDetail, onEdit, onSync, onToggle 
       </div>
     } },
   ]
-  return <Table rowKey="id" columns={columns} dataSource={data} scroll={{ x: 1610 }} pagination={{ pageSize: 6, showSizeChanger: false, showTotal: (total) => `共 ${total} 个数据源` }} />
+  return <Table rowKey="id" columns={columns} dataSource={data} scroll={{ x: 1840 }} pagination={{ pageSize: 6, showSizeChanger: false, showTotal: (total) => `共 ${total} 个数据源` }} />
 }
 
 export default DataSourceTable

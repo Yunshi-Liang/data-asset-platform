@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Alert, Button, Col, Drawer, Form, Input, Row, Select, Space, Switch } from 'antd'
-import { businessDomains, regions, sourceTypeGroups } from '../../../mock/dataAccess'
+import { businessDomains, getDataSourceClassification, regions } from '../../../mock/dataAccess'
 
 const frequencyOptions = ['手动', '每小时', '每天 00:30', '每天 01:30', '每天 02:00', '每天 04:00', '每天 06:00', '每周日', '每月 1 日', '实时']
 
@@ -13,7 +13,7 @@ function ConnectionEditFields({ group }) {
 
 function EditDataSourceDrawer({ source, open, onClose, onSave }) {
   const [form] = Form.useForm()
-  const groupTitle = sourceTypeGroups.find((item) => item.key === source?.group)?.title
+  const classification = source ? getDataSourceClassification(source) : null
 
   useEffect(() => {
     if (!open || !source) return
@@ -45,7 +45,7 @@ function EditDataSourceDrawer({ source, open, onClose, onSave }) {
       destroyOnHidden
       footer={<div className="drawer-footer"><Button onClick={handleClose}>取消</Button><Button type="primary" onClick={handleSave}>保存修改</Button></div>}
     >
-      <Alert showIcon type="info" title={`${groupTitle} / ${source.type}`} description="数据源大类和具体类型保持不变；敏感凭据不会回显。" />
+      <Alert showIcon type="info" title={`${classification.accessModeName} / ${classification.sourceTypeName} / ${classification.dataFormat}`} description="接入模式、数据源类型和数据格式保持不变；敏感凭据不会回显。" />
       <Form form={form} layout="vertical" className="edit-source-form">
         <Row gutter={16}>
           <Col span={12}><Form.Item name="name" label="数据源名称" rules={[{ required: true }]}><Input /></Form.Item></Col>

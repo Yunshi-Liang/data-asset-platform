@@ -1,19 +1,22 @@
 import { Alert, Descriptions, Drawer, Empty, Table, Tabs, Tag, Timeline } from 'antd'
+import { getDataSourceClassification } from '../../../mock/dataAccess'
 
 const statusMeta = { normal: ['success', '正常'], syncing: ['processing', '同步中'], error: ['error', '异常'], disabled: ['default', '已停用'] }
 
 function DataSourceDetailDrawer({ source, open, onClose }) {
   if (!source) return null
+  const classification = getDataSourceClassification(source)
   const basicItems = [
     ['数据源编号', source.id], ['数据源名称', source.name], ['来源系统', source.system], ['所属业务域', source.domain],
-    ['所属地区', source.region], ['数据源类型', source.type], ['运行状态', <Tag key="status" color={statusMeta[source.status][0]}>{statusMeta[source.status][1]}</Tag>],
+    ['所属地区', source.region], ['接入模式', classification.accessModeName], ['数据源类型', classification.sourceTypeName],
+    ['数据格式', classification.dataFormat], ['运行状态', <Tag key="status" color={statusMeta[source.status][0]}>{statusMeta[source.status][1]}</Tag>],
     ['负责人', source.owner], ['责任部门', source.department],
   ].map(([label, children], index) => ({ key: index, label, children }))
   const connectionItems = [
     ['连接地址', source.host], ['对象 / Schema', source.schema], ['用户名', 'data_access_user'], ['密码', '••••••••••••'], ['连接方式', '专线内网 / TLS 加密'],
   ].map(([label, children], index) => ({ key: index, label, children }))
   const syncItems = [
-    ['接入方式', source.syncMode], ['更新频率', source.frequency], ['最近同步', source.lastSync], ['累计数据量', source.volume], ['记录 / 文件数', source.records], ['字段数量', source.fields],
+    ['同步方式', source.syncMode], ['更新频率', source.frequency], ['最近同步', source.lastSync], ['累计数据量', source.volume], ['记录 / 文件数', source.records], ['字段数量', source.fields],
   ].map(([label, children], index) => ({ key: index, label, children }))
   const items = [
     { key: 'basic', label: '基本信息', children: <Descriptions bordered column={2} items={basicItems} /> },

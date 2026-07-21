@@ -6,14 +6,35 @@ export const accessOverview = [
   { key: 'volume', label: '今日新增数据量', value: 6.8, suffix: 'GB', precision: 1, tone: 'purple' },
 ]
 
-export const sourceTypeGroups = [
-  { key: 'database', title: '数据库接入', icon: 'database', types: ['Oracle', 'MySQL', 'SQL Server', 'PostgreSQL'] },
-  { key: 'api', title: 'API 接入', icon: 'api', types: ['REST API', 'WebService', '第三方开放接口'] },
-  { key: 'file', title: '文档接入', icon: 'file', types: ['Excel', 'CSV', 'JSON', 'XML'] },
-  { key: 'gis', title: 'GIS 与勘测文件', icon: 'gis', types: ['Shapefile', 'GDB（ZIP 压缩包）', 'GeoJSON', 'KML', 'GeoTIFF'] },
-  { key: 'design', title: '设计成果文件', icon: 'design', types: ['DWG', 'DXF', 'IFC', '三维模型文件'] },
-  { key: 'realtime', title: '实时数据接入', icon: 'realtime', types: ['Kafka', 'RabbitMQ', 'OPC', 'Modbus'] },
+export const accessModes = [
+  { key: 'connection', title: '连接接入', description: '连接外部系统或结构化数据源，支持按需或定期同步。' },
+  { key: 'file', title: '文件导入', description: '上传单个文件、压缩包或批量工程成果。' },
+  { key: 'stream', title: '实时流接入', description: '持续接收外部系统实时产生的数据。' },
 ]
+
+// 保留 key 与既有 group 字段兼容；accessMode/sourceType 用于新的两级分类展示。
+export const sourceTypeGroups = [
+  { key: 'database', sourceType: 'database', accessMode: 'connection', title: '数据库连接', icon: 'database', types: ['Oracle', 'MySQL', 'SQL Server', 'PostgreSQL'] },
+  { key: 'api', sourceType: 'api', accessMode: 'connection', title: 'API 接口', icon: 'api', types: ['REST API', 'WebService', '第三方开放接口'] },
+  { key: 'file', sourceType: 'document', accessMode: 'file', title: '通用文档', icon: 'file', types: ['Excel', 'CSV', 'JSON', 'XML', 'Word', 'PDF'] },
+  { key: 'gis', sourceType: 'gis-survey', accessMode: 'file', title: 'GIS 与勘测成果', icon: 'gis', types: ['Shapefile', 'GDB（zip）', 'GeoJSON', 'KML', 'GeoTIFF'] },
+  { key: 'design', sourceType: 'design-output', accessMode: 'file', title: '设计成果', icon: 'design', types: ['DWG', 'DGN', 'IFC', 'RVT', 'PDF', '压缩包'] },
+  { key: 'realtime', sourceType: 'realtime', accessMode: 'stream', title: '实时数据流', icon: 'realtime', types: ['Kafka', 'RabbitMQ', 'OPC', 'Modbus'] },
+]
+
+export const getAccessMode = (key) => accessModes.find((item) => item.key === key)
+export const getSourceType = (group) => sourceTypeGroups.find((item) => item.key === group || item.sourceType === group)
+export const getDataSourceClassification = (source) => {
+  const sourceType = getSourceType(source.sourceType || source.group)
+  const accessMode = getAccessMode(source.accessMode || sourceType?.accessMode)
+  return {
+    accessMode: accessMode?.key,
+    accessModeName: accessMode?.title || '—',
+    sourceType: sourceType?.sourceType,
+    sourceTypeName: sourceType?.title || '—',
+    dataFormat: source.dataFormat || source.type || '—',
+  }
+}
 
 export const businessDomains = ['技经数据', '勘测数据', '电气设计数据', '工程数据', '标准知识库']
 export const regions = ['广东省', '广西壮族自治区', '海南省', '广州市', '深圳市', '珠海市', '佛山市', '湛江市']

@@ -3,7 +3,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button, Card, Typography, message } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { currentUser } from '../../mock/currentUser'
-import { accessTaskRecords, initialDataSources } from '../../mock/dataAccess'
+import { accessTaskRecords, getDataSourceClassification, getSourceType, initialDataSources } from '../../mock/dataAccess'
 import AccessOverview from './components/AccessOverview'
 import AccessTaskDetailDrawer from './components/AccessTaskDetailDrawer'
 import CreateAccessDrawer from './components/CreateAccessDrawer'
@@ -16,7 +16,7 @@ import SourceTypeCards from './components/SourceTypeCards'
 import './dataAccess.css'
 
 const { Text, Title } = Typography
-const initialFilters = { keyword: '', group: undefined, domain: undefined, status: undefined, region: undefined }
+const initialFilters = { keyword: '', accessMode: undefined, sourceType: undefined, domain: undefined, status: undefined, region: undefined }
 const finishedSteps = ['建立连接', '读取数据', '校验数据结构', '采集元数据', '写入原始数据区', '完成任务'].map((name, index) => ({ name, time: `10:3${index}:0${index}`, detail: '执行完成', status: 'finish' }))
 
 function DataAccess() {
@@ -36,8 +36,9 @@ function DataAccess() {
   const filteredSources = useMemo(() => {
     const keyword = filters.keyword.trim().toLocaleLowerCase('zh-CN')
     return sources.filter((source) => {
+      const classification = getDataSourceClassification(source)
       const searchable = [source.name, source.system, source.owner, source.region].join(' ').toLocaleLowerCase('zh-CN')
-      return (!keyword || searchable.includes(keyword)) && (!filters.group || source.group === filters.group) && (!filters.domain || source.domain === filters.domain) && (!filters.status || source.status === filters.status) && (!filters.region || source.region === filters.region)
+      return (!keyword || searchable.includes(keyword)) && (!filters.accessMode || classification.accessMode === filters.accessMode) && (!filters.sourceType || source.group === filters.sourceType) && (!filters.domain || source.domain === filters.domain) && (!filters.status || source.status === filters.status) && (!filters.region || source.region === filters.region)
     })
   }, [filters, sources])
 
@@ -80,7 +81,8 @@ function DataAccess() {
     messageApi.success(enabling ? '数据源已启用，计划任务已恢复' : '数据源已停用，同步任务已暂停')
   }
   const handleCreated = (config) => {
-    const newSource = { id: `DS-${String(sources.length + 1).padStart(3, '0')}`, name: config.name, group: config.group, type: config.type, system: '新建接入任务', domain: config.domain, region: config.region, syncMode: config.syncMode === 'full' ? '全量接入' : '增量接入', frequency: ({ manual: '手动', daily: '每天', weekly: '每周', monthly: '每月' })[config.frequency], executeTime: config.executeTime?.format?.('HH:mm') || '', lastSync: '2026-07-16 10:30', volume: config.profile.volume, status: 'normal', owner: currentUser.name, department: config.department, host: '已安全配置（敏感信息已隐藏）', schema: config.profile.objectName, records: config.profile.rowCount, fields: config.profile.fieldCount, autoMetadata: config.autoMetadata, autoQuality: config.autoQuality, autoClassify: config.autoClassify, error: '' }
+    const sourceTypeConfig = getSourceType(config.group)
+    const newSource = { id: `DS-${String(sources.length + 1).padStart(3, '0')}`, name: config.name, accessMode: config.accessMode || sourceTypeConfig?.accessMode, sourceType: sourceTypeConfig?.sourceType, dataFormat: config.type, group: config.group, type: config.type, system: '新建接入任务', domain: config.domain, region: config.region, syncMode: config.syncMode === 'full' ? '全量接入' : '增量接入', frequency: ({ manual: '手动', daily: '每天', weekly: '每周', monthly: '每月' })[config.frequency], executeTime: config.executeTime?.format?.('HH:mm') || '', lastSync: '2026-07-16 10:30', volume: config.profile.volume, status: 'normal', owner: currentUser.name, department: config.department, host: '已安全配置（敏感信息已隐藏）', schema: config.profile.objectName, records: config.profile.rowCount, fields: config.profile.fieldCount, autoMetadata: config.autoMetadata, autoQuality: config.autoQuality, autoClassify: config.autoClassify, error: '' }
     setSources((current) => [newSource, ...current])
     setTasks((current) => [makeTask({ id: `TASK-20260716-${String(current.length + 19).padStart(3, '0')}`, name: `${config.name}首次接入`, source: config.name, triggerMode: '人工触发', processedVolume: config.profile.volume }), ...current])
   }
